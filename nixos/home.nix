@@ -25,7 +25,10 @@
     nodejs_21
     slurp
     swayfx
+    swayidle
+    swaylock
     unzip
+    waybar
     xournalpp
     zig
     zip
