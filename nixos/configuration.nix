@@ -100,6 +100,7 @@
   environment.systemPackages = with pkgs; [
     curl
     git
+    gnupg
     keyd
     home-manager
     vim
@@ -125,6 +126,8 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  programs.gnupg.agent.enable = true;
 
   security.polkit.enable = true;
 
