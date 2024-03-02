@@ -141,6 +141,8 @@
   # services.openssh.enable = true;
 
   services = {
+    dbus.enable = true;
+    gnome.gnome-keyring.enable = true;
     keyd = {
       enable = true;
       keyboards = {
@@ -154,6 +156,12 @@
         };
       };
     };
+  };
+
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # Open ports in the firewall.
