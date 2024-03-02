@@ -126,6 +126,13 @@
   #   enableSSHSupport = true;
   # };
 
+  security.polkit.enable = true;
+
+  programs.sway = {
+      enable = true;
+      package = pkgs.swayfx;
+  };
+
   programs.zsh.enable = true;
 
   # List services that you want to enable:

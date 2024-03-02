@@ -49,6 +49,11 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/config";
       target = ".config/sway/config";
     };
+    waybar = {
+      recursive = true;
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/waybar";
+      target = ".config/waybar";
+    };
   };
 
   # works better than the regular home-manager session variables
@@ -138,10 +143,5 @@
       cat = "bat";
     };
     syntaxHighlighting.enable = true;
-  };
-
-  wayland.windowManager.sway = {
-    enable = true;
-    package = pkgs.swayfx;
   };
 }
