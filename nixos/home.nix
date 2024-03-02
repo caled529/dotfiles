@@ -11,9 +11,11 @@
   home.packages = with pkgs; [
     alejandra
     bat
+    btop
     cargo
     eza
     firefox
+    fuzzel
     fzf
     gcc
     gh
@@ -23,6 +25,7 @@
     neofetch
     neovim
     nodejs_21
+    playerctl
     slurp
     swayfx
     swayidle
@@ -135,5 +138,10 @@
       cat = "bat";
     };
     syntaxHighlighting.enable = true;
+  };
+
+  wayland.windowManager.sway = {
+    enable = true;
+    package = pkgs.swayfx;
   };
 }
