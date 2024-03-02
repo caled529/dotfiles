@@ -27,7 +27,7 @@
   };
 
   networking.hostName = "nixos"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -44,9 +44,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -99,6 +97,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     curl
+    dbus
     git
     keyd
     home-manager
@@ -128,11 +127,6 @@
 
   security.polkit.enable = true;
 
-  programs.sway = {
-      enable = true;
-      package = pkgs.swayfx;
-  };
-
   programs.zsh.enable = true;
 
   # List services that you want to enable:
@@ -141,6 +135,7 @@
   # services.openssh.enable = true;
 
   services = {
+    dbus.enable = true;
     keyd = {
       enable = true;
       keyboards = {
@@ -154,6 +149,12 @@
         };
       };
     };
+  };
+
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
 
   # Open ports in the firewall.
