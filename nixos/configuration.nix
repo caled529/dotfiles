@@ -27,7 +27,7 @@
   };
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -100,7 +100,6 @@
   environment.systemPackages = with pkgs; [
     curl
     git
-    gnupg
     keyd
     home-manager
     vim
@@ -126,8 +125,6 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-
-  programs.gnupg.agent.enable = true;
 
   security.polkit.enable = true;
 
