@@ -3,10 +3,6 @@
   pkgs,
   ...
 }: {
-  imports = [
-    ./swayfx.nix
-  ];
-
   home.username = "elac";
   home.homeDirectory = "/home/elac";
 
@@ -51,7 +47,7 @@
     };
     swayfx = {
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/config";
-      target = ".config/sway/fxconfig";
+      target = ".config/sway/config";
     };
     waybar = {
       recursive = true;
