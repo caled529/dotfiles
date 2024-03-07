@@ -49,6 +49,10 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/nvim";
       target = ".config/nvim";
     };
+    swayfx = {
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/config";
+      target = ".config/sway/fxconfig";
+    };
     waybar = {
       recursive = true;
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/waybar";

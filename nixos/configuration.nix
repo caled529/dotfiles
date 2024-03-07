@@ -128,6 +128,14 @@
 
   programs.zsh.enable = true;
 
+  # I want this in home manager but for now this will be okay
+  programs.sway = {
+    enable = true;
+    package = pkgs.swayfx;
+    extraPackages = with pkgs; [swaylock swayidle kitty fuzzel waybar];
+    wrapperFeatures.gtk = true;
+  };
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
