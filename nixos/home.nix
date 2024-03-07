@@ -3,6 +3,10 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ./swayfx.nix
+  ];
+
   home.username = "elac";
   home.homeDirectory = "/home/elac";
 
@@ -44,10 +48,6 @@
       # https://discourse.nixos.org/t/how-to-manage-dotfiles-with-home-manager/30576/3
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/nvim";
       target = ".config/nvim";
-    };
-    swayfx = {
-      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/config";
-      target = ".config/sway/config";
     };
     waybar = {
       recursive = true;
