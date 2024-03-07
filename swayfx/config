@@ -61,12 +61,12 @@ mouse_warping none
 # Move minimized windows into Scratchpad (enable|disable)
 scratchpad_minimize disable
 
-set $desktop_wallpaper ~/Wallpapers/1920x1080/Release_to_Memory-Danner-1920x1080.png
-set $lock_screen ~/Wallpapers/1920x1080/Swiftwater_Cliffs-Danner-1920x1080.png
+set $desktop_wallpaper /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png
+set $lock_screen /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg ~/Wallpapers/1920x1080/Release_to_Memory-Danner-1920x1080.png fill
+output * bg $desktop_wallpaper fill
 #
 # Example configuration:
 #
