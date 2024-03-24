@@ -45,6 +45,10 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/nvim";
       target = ".config/nvim";
     };
+    fuzzel = {
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/fuzzel.ini";
+      target = ".config/fuzzel.ini";
+    };
     swayfx = {
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/config";
       target = ".config/sway/config";
@@ -54,6 +58,12 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/waybar";
       target = ".config/waybar";
     };
+  };
+
+  # gnome theming stuff
+  dconf = {
+    enable = true;
+    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
   # works better than the regular home-manager session variables
@@ -68,6 +78,28 @@
     git = true;
     icons = true;
   };
+
+  #  programs.fuzzel = {
+  #    enable = true;
+  #    settings = {
+  #      main = {
+  #        dpi-aware = false;
+  #        width = 48;
+  #        font = "FiraCodeNerdFontMono:weight=medium:size=14";
+  #        line-height = 18;
+  #        fields = ["name" "generic" "comment" "categories" "filename" "keywords"];
+  #        terminal = "kitty";
+  #        show-actions = true;
+  #      };
+  #      colors = {
+  #        background = "282a36ea";
+  #        selection = "3d4474ea";
+  #        border = "ffffff40";
+  #      };
+  #      border.radius = 0;
+  #      dmenu.exit-immediately-if-empty = true;
+  #    };
+  #  };
 
   programs.fzf = {
     enable = true;

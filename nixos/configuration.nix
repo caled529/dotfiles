@@ -44,7 +44,11 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.sddm = {
+    enable = true;
+    theme = "";
+    wayland.enable = true;
+  };
 
   # Configure keymap in X11
   services.xserver = {
@@ -98,8 +102,8 @@
   environment.systemPackages = with pkgs; [
     curl
     git
-    keyd
     home-manager
+    keyd
     vim
     wget
   ];
@@ -135,6 +139,9 @@
     extraPackages = with pkgs; [swaylock swayidle kitty fuzzel waybar];
     wrapperFeatures.gtk = true;
   };
+
+  # think this has to be here to make gtk themes work
+  programs.dconf.enable = true;
 
   # List services that you want to enable:
 
