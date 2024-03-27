@@ -48,7 +48,7 @@
   services.xserver.displayManager.gdm = {
     enable = true;
     autoSuspend = true;
-    wayland.enable = true;
+    wayland = true;
   };
 
   # Configure keymap in X11
@@ -116,6 +116,7 @@
   fonts.packages = with pkgs; [
     fira-code
     fira-code-symbols
+    font-awesome
     (nerdfonts.override {fonts = ["FiraCode"];})
   ];
 
