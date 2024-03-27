@@ -6,7 +6,8 @@
   home.username = "elac";
   home.homeDirectory = "/home/elac";
 
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  # Just don't delete or change this unless you need to
+  home.stateVersion = "23.11";
 
   home.packages = with pkgs; [
     alejandra
@@ -27,17 +28,14 @@
     nodejs_21
     playerctl
     slurp
-    swayfx
-    swayidle
-    swaylock
     unzip
-    waybar
     xournalpp
     zig
     zip
     zoxide
   ];
 
+  # Dotfile symlinking
   home.file = {
     nvim = {
       recursive = true;
@@ -45,10 +43,7 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/nvim";
       target = ".config/nvim";
     };
-    fuzzel = {
-      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/fuzzel.ini";
-      target = ".config/fuzzel.ini";
-    };
+    # With enough effort the config could be rewritten in nix but I'd rather not
     swayfx = {
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/config";
       target = ".config/sway/config";
@@ -60,52 +55,33 @@
     };
   };
 
-  # gnome theming stuff
+  # Gnome theming stuff
   dconf = {
     enable = true;
     settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
-  # works better than the regular home-manager session variables
+  # Works better than the regular home-manager session variables
   systemd.user.sessionVariables = {
     EDITOR = "nvim";
   };
 
+  # Better cat
   programs.bat.enable = true;
 
+  # Better ls
   programs.eza = {
     enable = true;
     git = true;
     icons = true;
   };
 
-  #  programs.fuzzel = {
-  #    enable = true;
-  #    settings = {
-  #      main = {
-  #        dpi-aware = false;
-  #        width = 48;
-  #        font = "FiraCodeNerdFontMono:weight=medium:size=14";
-  #        line-height = 18;
-  #        fields = ["name" "generic" "comment" "categories" "filename" "keywords"];
-  #        terminal = "kitty";
-  #        show-actions = true;
-  #      };
-  #      colors = {
-  #        background = "282a36ea";
-  #        selection = "3d4474ea";
-  #        border = "ffffff40";
-  #      };
-  #      border.radius = 0;
-  #      dmenu.exit-immediately-if-empty = true;
-  #    };
-  #  };
-
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
   };
 
+  # GitHub CLI for authentication
   programs.gh.enable = true;
 
   programs.git = {
@@ -141,6 +117,7 @@
     shellIntegration.enableZshIntegration = true;
   };
 
+  # Better cd
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
@@ -152,6 +129,7 @@
     enableAutosuggestions = true;
     enableCompletion = true;
     autocd = true;
+    # Should be a better way to do this but I couldn't find it in the man pages
     initExtra = ''
       setopt prompt_subst
       autoload -U colors && colors
@@ -170,8 +148,6 @@
     '';
     shellAliases = {
       ls = "eza --grid -la";
-      nix-generation = "nix-env --list-generations | grep current | awk '{print $1}'";
-      home-generation = "home-manager generations | awk 'NR==1{print $5}'";
       cat = "bat";
     };
     syntaxHighlighting.enable = true;

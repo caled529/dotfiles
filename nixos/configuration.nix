@@ -26,7 +26,7 @@
     };
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "NitroNix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -44,9 +44,10 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  services.xserver.displayManager.sddm = {
+  # Enable GDM on Wayland
+  services.xserver.displayManager.gdm = {
     enable = true;
-    theme = "";
+    autoSuspend = true;
     wayland.enable = true;
   };
 
@@ -79,8 +80,10 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  # Enable flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
+  # Add users
   users.users.elac = {
     isNormalUser = true;
     description = "elac";
@@ -88,6 +91,7 @@
     shell = pkgs.zsh;
   };
 
+  # Home-manager setup
   home-manager = {
     extraSpecialArgs = {inherit inputs;};
     users = {
@@ -95,10 +99,10 @@
     };
   };
 
+  # Allow proprietary packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # System-level packages
   environment.systemPackages = with pkgs; [
     curl
     git
@@ -108,57 +112,55 @@
     wget
   ];
 
+  # Extra fonts
   fonts.packages = with pkgs; [
     fira-code
     fira-code-symbols
     (nerdfonts.override {fonts = ["FiraCode"];})
   ];
 
+  # Default environment variables
   environment.sessionVariables = {
     EDITOR = "vim";
   };
 
+  # Enables OpenGL drivers (Mesa)
   hardware.opengl.enable = true;
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  security.polkit.enable = true;
+  # Key management
+  programs.gnupg.agent = {
+    enable = true;
+    # enableSSHSupport = true;
+  };
 
   programs.zsh.enable = true;
 
-  # I want this in home manager but for now this will be okay
+  # Ideally SwayFX and related setup would exist in a home-manager file.
+  security.polkit.enable = true;
   programs.sway = {
     enable = true;
     package = pkgs.swayfx;
-    extraPackages = with pkgs; [swaylock swayidle kitty fuzzel waybar];
+    extraPackages = with pkgs; [swaylock swayidle kitty bemenu waybar];
     wrapperFeatures.gtk = true;
   };
 
-  # think this has to be here to make gtk themes work
-  programs.dconf.enable = true;
-
-  # List services that you want to enable:
+  # Enables screen-sharing
+  xdg.portal.wlr.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  services = {
-    keyd = {
-      enable = true;
-      keyboards = {
-        default = {
-          ids = ["*"];
-          settings.main = {
-            "capslock" = "overload(control, esc)";
-            # Maps guillemets key to control. Should be in its own module.
-            "102nd" = "rightcontrol";
-          };
+  # Key remapping service.
+  services.keyd = {
+    enable = true;
+    keyboards = {
+      default = {
+        ids = ["*"];
+        settings.main = {
+          "capslock" = "overload(control, esc)";
+          # Maps guillemets key to control. This only really applies to my
+          # laptop and maybe other canadian market laptops.
+          "102nd" = "rightcontrol";
         };
       };
     };
@@ -170,11 +172,6 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  # Just don't delete or change this unless you need to
+  system.stateVersion = "23.11";
 }
