@@ -128,6 +128,8 @@
   # Enables OpenGL drivers (Mesa)
   hardware.opengl.enable = true;
 
+  hardware.bluetooth.enable = true;
+
   # Key management
   programs.gnupg.agent = {
     enable = true;
