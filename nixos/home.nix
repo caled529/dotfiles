@@ -28,6 +28,7 @@
     nodejs_21
     playerctl
     slurp
+    spotify-player
     unzip
     xournalpp
     zig
