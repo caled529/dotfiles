@@ -12,6 +12,7 @@
   home.packages = with pkgs; [
     alejandra
     bat
+    blueman
     btop
     cargo
     eza
