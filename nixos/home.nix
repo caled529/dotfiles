@@ -128,7 +128,7 @@
 
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestions.enable = true;
     enableCompletion = true;
     autocd = true;
     # Should be a better way to do this but I couldn't find it in the man pages
