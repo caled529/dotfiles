@@ -22,7 +22,7 @@ set $term kitty
 # Default
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-set $menu bemenu
+set $menu bemenu-run
 
 # Additional config to allow programs to open a window and run. Based on above.
 for_window [app_id="^float-win$"] floating enable
