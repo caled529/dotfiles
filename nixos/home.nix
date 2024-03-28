@@ -24,6 +24,7 @@
     grim
     keepassxc
     kitty
+    lua
     neofetch
     neovim
     nodejs_21
