@@ -19,7 +19,6 @@
     eza
     fd
     firefox
-    fuzzel
     fzf
     gcc
     gh
