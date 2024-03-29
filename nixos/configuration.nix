@@ -143,7 +143,7 @@
   programs.sway = {
     enable = true;
     package = pkgs.swayfx;
-    extraPackages = with pkgs; [swaylock swayidle kitty bemenu waybar];
+    extraPackages = with pkgs; [swaylock swayidle kitty bemenu waybar wl-clipboard];
     wrapperFeatures.gtk = true;
   };
 
