@@ -129,10 +129,10 @@
 
   programs.zsh = {
     enable = true;
-    autosuggestions.enable = true;
     enableCompletion = true;
     autocd = true;
-    # Should be a better way to do this but I couldn't find it in the man pages
+    autosuggestion.enable = true;
+    history.ignoreAllDups = true;
     initExtra = ''
       setopt prompt_subst
       autoload -U colors && colors
@@ -148,6 +148,9 @@
       RPROMPT='%{%F{007}%}[%*]'
 
       bindkey '^[[Z' autosuggest-accept
+
+      autoload -Uz compinit && compinit
+      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
     '';
     shellAliases = {
       ls = "eza --grid -la";
