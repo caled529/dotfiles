@@ -147,6 +147,11 @@
     wrapperFeatures.gtk = true;
   };
 
+  programs.nix-ld = {
+    enable = true;
+    # libraries = with pkgs; [ ];
+  };
+
   # Enables screen-sharing
   xdg.portal.wlr.enable = true;
 
