@@ -9,6 +9,9 @@
   # Just don't delete or change this unless you need to
   home.stateVersion = "23.11";
 
+  # Home-manager needs this even if it's already set in configuration.nix
+  nixpkgs.config.allowUnfree = true;
+
   # This would be a good place to modularize and organize packages by usage
   home.packages = with pkgs; [
     alejandra
@@ -24,9 +27,11 @@
     gh
     go
     grim
+    jetbrains.idea-ultimate
     jdk21
     keepassxc
     kitty
+    libreoffice-fresh
     lua
     neofetch
     neovim
@@ -47,6 +52,10 @@
 
   # Dotfile symlinking
   home.file = {
+    ideavim = {
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/.ideavimrc";
+      target = ".ideavim";
+    };
     nvim = {
       recursive = true;
       # https://discourse.nixos.org/t/how-to-manage-dotfiles-with-home-manager/30576/3
