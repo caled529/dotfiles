@@ -9,6 +9,7 @@
   # Just don't delete or change this unless you need to
   home.stateVersion = "23.11";
 
+  # This would be a good place to modularize and organize packages by usage
   home.packages = with pkgs; [
     alejandra
     bat
@@ -16,12 +17,15 @@
     btop
     cargo
     eza
+    fd
     firefox
     fuzzel
     fzf
     gcc
     gh
+    go
     grim
+    jdk21
     keepassxc
     kitty
     lua
@@ -29,10 +33,14 @@
     neovim
     nodejs_21
     playerctl
+    python3
+    ripgrep
     slurp
     spotify-player
+    tree-sitter
     unzip
     xournalpp
+    zathura
     zig
     zip
     zoxide
