@@ -45,6 +45,7 @@
     tree-sitter
     unzip
     xfce.thunar
+    xfce.xfconf
     xournalpp
     yazi
     zathura
