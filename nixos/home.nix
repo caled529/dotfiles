@@ -27,6 +27,7 @@
     gh
     go
     grim
+    gvfs
     jetbrains.idea-ultimate
     jdk21
     keepassxc
