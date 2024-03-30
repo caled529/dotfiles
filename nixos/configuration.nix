@@ -150,8 +150,19 @@
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
+      glib
       libgcc
+      zlib
     ];
+  };
+
+  # Should be moved to a module
+  programs.java.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    gamescopeSession.enable = true;
   };
 
   # Enables screen-sharing
@@ -175,6 +186,9 @@
       };
     };
   };
+
+  # Extra file system functionality for thunar
+  services.gvfs.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
