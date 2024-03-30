@@ -152,6 +152,13 @@
     libraries = with pkgs; [
       glib
       libgcc
+      libGL
+      libGLU
+      openal
+      xorg.libX11
+      xorg.libXi
+      xorg.libXrandr
+      xorg.libXxf86vm
       zlib
     ];
   };
