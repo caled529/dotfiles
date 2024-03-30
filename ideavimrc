@@ -1,0 +1,54 @@
+" Basically just the nvim config ported to ideavim
+
+" --- set ---
+set number
+set relativenumber
+
+set tabstop=2
+set shiftwidth=2
+
+set smartindent
+
+set nohlsearch
+set incsearch
+
+set scrolloff=8
+
+" ideavim specific
+set ideajoin
+
+" --- plugins ---
+" Highlight copied text
+Plug 'machakann/vim-highlightedyank'
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+" File tree plugin for better integration with keymaps
+Plug 'preservim/nerdtree'
+
+
+" --- keymaps ---
+let mapleader=" "
+
+nmap <leader>fe :NERDTree<CR>
+
+xmap J :m '>+1<CR>gv=gv
+xmap K :m '<-2<CR>gv=gv
+
+" nmap J mzJ`z
+
+nmap <C-d> <C-d>zz
+nmap <C-u> <C-u>zz
+
+nmap Q <nop>
+
+nmap <leader>gs <Action>(ActivateVersionControlToolWindow)
+
+nmap <leader>gd <Action>(GotoDeclaration)
+nmap K <Action>(QuickJavaDoc)
+
+nmap <leader>rf <Action>(FindUsages)
+nmap <leader>rn <Action>(RenameElement)
+
+nmap <leader>x <Action>(CloseContent)
+
+nmap <leader>tm <Action>(ActivateTerminalToolWindow)

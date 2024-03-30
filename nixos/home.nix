@@ -43,7 +43,9 @@
     spotify-player
     tree-sitter
     unzip
+    xfce.thunar
     xournalpp
+    yazi
     zathura
     zig
     zip
@@ -53,8 +55,8 @@
   # Dotfile symlinking
   home.file = {
     ideavim = {
-      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/.ideavimrc";
-      target = ".ideavim";
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/ideavimrc";
+      target = ".ideavimrc";
     };
     nvim = {
       recursive = true;
