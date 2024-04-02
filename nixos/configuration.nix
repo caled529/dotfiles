@@ -150,10 +150,12 @@
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
+      icu
       libgcc
       libGL
       libGLU
       openal
+      stdenv.cc.cc.lib
       xorg.libX11
       xorg.libXi
       xorg.libXrandr
