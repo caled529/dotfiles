@@ -14,8 +14,6 @@ return {
 	config = function()
 		local lsp_zero = require("lsp-zero")
 
-		require("java").setup()
-
 		require("mason").setup({})
 		require("mason-lspconfig").setup({
 			ensure_installed = { "tsserver", "rust_analyzer" },

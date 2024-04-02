@@ -19,16 +19,19 @@
     blueman
     btop
     cargo
+    delve
     eza
     fd
     firefox
     fzf
     gcc
+    gdb
     gh
     go
     grim
     gvfs
     jetbrains.idea-ultimate
+    jdt-language-server
     jdk21
     keepassxc
     kitty
@@ -84,8 +87,7 @@
     settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
-  # Works better than the regular home-manager session variables
-  systemd.user.sessionVariables = {
+  home.sessionVariables = {
     EDITOR = "nvim";
   };
 
