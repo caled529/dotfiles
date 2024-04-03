@@ -18,6 +18,7 @@
     bat
     blueman
     btop
+    calcurse
     cargo
     delve
     eza
@@ -42,11 +43,13 @@
     nodejs_21
     playerctl
     python3
+    q4wine
     ripgrep
     slurp
     spotify-player
     tree-sitter
     unzip
+    wineWowPackages.waylandFull
     xfce.thunar
     xfce.xfconf
     xournalpp
@@ -59,6 +62,11 @@
 
   # Dotfile symlinking
   home.file = {
+    calcurse = {
+      recursive = true;
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/calcurse";
+      target = ".config/calcurse";
+    };
     ideavim = {
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/ideavimrc";
       target = ".ideavimrc";
