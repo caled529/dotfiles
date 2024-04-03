@@ -24,15 +24,13 @@ set $term kitty
 
 set $menu bemenu-run -iw
 
-# Additional config to allow programs to open a window and run. Based on above.
-for_window [app_id="^float-win$"] floating enable
+# Additional config to allow programs to open a window and run.
+for_window [app_id="^float-win$"] floating enable, resize set width 1080 height 720
 
 # Enable Xwayland
 xwayland enable
 
 ### Appearance
-# window corner radius in px
-corner_radius 5
 
 # Window background blur
 blur off
@@ -51,6 +49,7 @@ dim_inactive_colors.unfocused #000000FF
 dim_inactive_colors.urgent #900000FF
 
 default_border pixel 2
+client.focused #FAE6FA90 #FAE6FA68 #1B1B1B #FAE6FAA0
 smart_gaps on
 
 gaps inner 2
@@ -61,12 +60,10 @@ mouse_warping none
 # Move minimized windows into Scratchpad (enable|disable)
 scratchpad_minimize disable
 
-set $desktop_wallpaper /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png
-set $lock_screen /run/current-system/sw/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg $desktop_wallpaper fill
+output * bg #1B1B1B solid_color
 #
 # Example configuration:
 #
@@ -78,10 +75,25 @@ output * bg $desktop_wallpaper fill
 #
 # Example configuration:
 #
+set $swaylock_command swaylock \
+                        --fade-in 0.5 \
+                        --screenshots \
+                        --effect-scale 0.25 \
+                        --effect-blur 5x3 \
+                        --clock \
+                        --datestr="%a. %d/%m/%Y" \
+                        --indicator \
+                        --grace 1 \
+                        --ring-color fae6fa28 \
+                        --key-hl-color fae6fa40 \
+                        --line-color 00000000 \
+                        --separator-color 00000000 \
+                        --inside-color fae6fa18 \
+                        --text-color f0f0f0a0
 exec swayidle -w \
-         timeout 300 'swaylock -e -f -i $lock_screen' \
+         timeout 300 '$swaylock_command' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'swaylock -e -f -i $lock_screen'
+         before-sleep '$swaylock_command'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -106,8 +118,7 @@ exec swayidle -w \
 # Basics:
 #
     # Lock desktop
-    bindsym $mod+Control+l exec swaylock -e -f -i $lock_screen
-
+    bindsym $mod+Control+l exec $swaylock_command
     # Sleepy computer zzz
     bindsym $mod+Control+s exec systemctl suspend
 
@@ -127,7 +138,7 @@ exec swayidle -w \
     bindsym $mod+p exec keepassxc
 
     # sloppytop
-    bindsym $mod+Escape exec kitty --class=float-win -o initial_window_width=150c -o initial_window_height=40c -e btop
+    bindsym $mod+Escape exec kitty --class=float-win -e btop
 
     # screenshot
     bindsym $mod+Shift+s exec grim -g "$(slurp)" $HOME/grim_screenshots/$(date +"%Y-%m-%d_%Hh%Mm%Ss")_grim.png
