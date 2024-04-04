@@ -5,6 +5,7 @@
   inputs,
   config,
   pkgs,
+  pkgs-stable,
   ...
 }: {
   imports = [
@@ -103,10 +104,10 @@
   nixpkgs.config.allowUnfree = true;
 
   # System-level packages
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs-stable; [
     curl
     git
-    home-manager
+    pkgs.home-manager
     keyd
     vim
     wget
@@ -143,7 +144,7 @@
   programs.sway = {
     enable = true;
     package = pkgs.swayfx;
-    extraPackages = with pkgs; [swaylock-effects swayidle kitty bemenu waybar wl-clipboard];
+    extraPackages = with pkgs; [swaylock swayidle kitty bemenu waybar wl-clipboard];
     wrapperFeatures.gtk = true;
   };
 
