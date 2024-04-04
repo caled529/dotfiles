@@ -144,10 +144,29 @@
       active_tab_background = "#bbb";
       inactive_tab_foreground = "#222";
       inactive_tab_background = "#777";
-      background_opacity = "0.9";
+      background_opacity = "0.8";
       text_fg_override_threshold = 2;
     };
     shellIntegration.enableZshIntegration = true;
+  };
+
+  programs.swaylock = {
+    enable = true;
+    settings = {
+      color = "1b1b1b";
+      bs-hl-color = "fad6ea";
+      inside-color = "fae6fa40";
+      inside-clear-color = "fae6fa40";
+      inside-ver-color = "fae6fa40";
+      inside-wrong-color = "fae6fa40";
+      key-hl-color = "fae6fa40";
+      line-uses-ring = true;
+      ring-color = "fae6fa80";
+      ring-clear-color = "fae6fa80";
+      ring-ver-color = "fae6fa80";
+      ring-wrong-color = "fae6fa80";
+      separator-color = "00000000";
+    };
   };
 
   # Better cd
