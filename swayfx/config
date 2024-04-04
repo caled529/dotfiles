@@ -75,25 +75,10 @@ output * bg #1B1B1B solid_color
 #
 # Example configuration:
 #
-set $swaylock_command swaylock \
-                        --fade-in 0.5 \
-                        --screenshots \
-                        --effect-scale 0.25 \
-                        --effect-blur 5x3 \
-                        --clock \
-                        --datestr="%a. %d/%m/%Y" \
-                        --indicator \
-                        --grace 1 \
-                        --ring-color fae6fa28 \
-                        --key-hl-color fae6fa40 \
-                        --line-color 00000000 \
-                        --separator-color 00000000 \
-                        --inside-color fae6fa18 \
-                        --text-color f0f0f0a0
 exec swayidle -w \
-         timeout 300 '$swaylock_command' \
+         timeout 300 'swaylock' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep '$swaylock_command'
+         before-sleep 'swaylock'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -118,7 +103,7 @@ exec swayidle -w \
 # Basics:
 #
     # Lock desktop
-    bindsym $mod+Control+l exec $swaylock_command
+    bindsym $mod+Control+l exec swaylock
     # Sleepy computer zzz
     bindsym $mod+Control+s exec systemctl suspend
 
@@ -287,7 +272,7 @@ bindsym $mod+r mode "resize"
 # }
 bar swaybar_command waybar
 
-set $laptop eDP-1
+set $laptop eDP-2
 # Enables proper clamshell behaviour - https://github.com/swaywm/sway/wiki#clamshell-mode
 # * added pos argument makes this work with my desk monitor setup
 bindswitch --reload --locked lid:on output $laptop disable
@@ -310,8 +295,8 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Wacom tablet config
 set $intuos_pad 1386:886:Wacom_Intuos_BT_S_Pad
 set $intuos_pen 1386:886:Wacom_Intuos_BT_S_Pen
-input $intuos_pad map_to_output eDP-1
-input $intuos_pen map_to_output eDP-1
+input $intuos_pad map_to_output $laptop
+input $intuos_pen map_to_output $laptop
 # 5Head (Braindead) map to bring tablet stuff to focused display
 bindsym $mod+Shift+p exec swaymsg input $intuos_pad map_to_output $(swaymsg -t get_outputs | jq -r '.[] | select(.focused==true).name') && swaymsg input $intuos_pen map_to_output $(swaymsg -t get_outputs | jq -r '.[] | select(.focused==true).name')
 
