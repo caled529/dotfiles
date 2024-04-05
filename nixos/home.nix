@@ -77,6 +77,11 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/nvim";
       target = ".config/nvim";
     };
+    spotify-player = {
+      recursive = true;
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/spotify-player";
+      target = ".config/spotify-player";
+    };
     # With enough effort the config could be rewritten in nix but I'd rather not
     swayfx = {
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/config";
@@ -155,17 +160,25 @@
     settings = {
       color = "1b1b1b";
       bs-hl-color = "fad6ea";
+      indicator-idle-visible = true;
       inside-color = "fae6fa40";
       inside-clear-color = "fae6fa40";
       inside-ver-color = "fae6fa40";
       inside-wrong-color = "fae6fa40";
       key-hl-color = "fae6fa40";
-      line-uses-ring = true;
+      line-color = "00000000";
+      line-clear-color = "00000000";
+      line-ver-color = "00000000";
+      line-wrong-color = "00000000";
       ring-color = "fae6fa80";
       ring-clear-color = "fae6fa80";
       ring-ver-color = "fae6fa80";
       ring-wrong-color = "fae6fa80";
       separator-color = "00000000";
+      text-color = "fae6fa";
+      text-clear-color = "fae6fa";
+      text-ver-color = "fae6fa";
+      text-wrong-color = "fae6fa";
     };
   };
 
