@@ -88,7 +88,7 @@
   users.users.elac = {
     isNormalUser = true;
     description = "elac";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "libvirtd"];
     shell = pkgs.zsh;
   };
 
@@ -186,6 +186,11 @@
       };
     };
   };
+
+  services.gvfs.enable = true;
+
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

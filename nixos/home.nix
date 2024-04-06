@@ -30,7 +30,6 @@
     gh
     go
     grim
-    gvfs
     jetbrains.idea-ultimate
     jdt-language-server
     jdk21
