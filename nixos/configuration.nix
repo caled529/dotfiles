@@ -124,6 +124,7 @@
   # Default environment variables
   environment.sessionVariables = {
     EDITOR = "vim";
+    GSETTINGS_BACKEND = "keyfile";
   };
 
   # Enables OpenGL drivers (Mesa)
@@ -151,6 +152,9 @@
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
+      glib
+      gtk2
+      gtk3
       icu
       libgcc
       libGL
@@ -160,6 +164,7 @@
       xorg.libX11
       xorg.libXi
       xorg.libXrandr
+      xorg.libXtst
       xorg.libXxf86vm
       zlib
     ];
