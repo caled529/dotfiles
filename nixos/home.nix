@@ -28,6 +28,7 @@
     gcc
     gdb
     gh
+    gimp
     go
     grim
     jdt-language-server
