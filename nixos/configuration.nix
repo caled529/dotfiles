@@ -127,8 +127,12 @@
     GSETTINGS_BACKEND = "keyfile";
   };
 
-  # Enables OpenGL drivers (Mesa)
-  hardware.opengl.enable = true;
+  # Enables OpenGL
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
 
   hardware.bluetooth.enable = true;
 

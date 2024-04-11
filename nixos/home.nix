@@ -39,6 +39,13 @@
     kitty
     libreoffice-fresh
     lua
+    (lutris.override {
+      extraLibraries = pkgs: [
+      ];
+      extraPkgs = pkgs: [
+        steam
+      ];
+    })
     neofetch
     neovim
     nodejs_21
