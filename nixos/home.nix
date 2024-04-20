@@ -22,6 +22,7 @@
     cargo
     delve
     eza
+    fastfetch
     fd
     firefox
     fzf
@@ -36,17 +37,8 @@
     jetbrains.idea-ultimate
     jq
     keepassxc
-    kitty
     libreoffice-fresh
     lua
-    (lutris.override {
-      extraLibraries = pkgs: [
-      ];
-      extraPkgs = pkgs: [
-        steam
-      ];
-    })
-    neofetch
     neovim
     nodejs_21
     playerctl
@@ -59,6 +51,7 @@
     unzip
     wineWowPackages.waylandFull
     xfce.thunar
+    xfce.thunar-archive-plugin
     xfce.xfconf
     xournalpp
     yazi
@@ -99,6 +92,10 @@
       recursive = true;
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/waybar";
       target = ".config/waybar";
+    };
+    wezterm = {
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/wezterm.lua";
+      target = ".wezterm.lua";
     };
   };
 
@@ -182,28 +179,6 @@
 
   programs.home-manager.enable = true;
 
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "FiraCodeNerdFont";
-      package = pkgs.nerdfonts.override {fonts = ["FiraCode"];};
-      size = 12;
-    };
-    settings = {
-      disable_ligatures = "never";
-      copy_on_select = "yes";
-      tab_bar_edge = "top";
-      tab_bar_style = "powerline";
-      tab_powerline_style = "slanted";
-      active_tab_background = "#bbb";
-      inactive_tab_foreground = "#222";
-      inactive_tab_background = "#777";
-      background_opacity = "0.8";
-      text_fg_override_threshold = 2;
-    };
-    shellIntegration.enableZshIntegration = true;
-  };
-
   programs.swaylock = {
     enable = true;
     settings = {
@@ -266,6 +241,9 @@
     shellAliases = {
       ls = "eza --grid -la";
       cat = "bat";
+      neofetch = "fastfetch";
+      vi = "nvim";
+      vim = "nvim";
     };
     syntaxHighlighting.enable = true;
   };
