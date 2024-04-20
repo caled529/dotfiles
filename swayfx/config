@@ -7,14 +7,14 @@
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
-set $mod Mod4
+set $mod Mod1
 # Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term kitty
+set $term wezterm
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -67,7 +67,7 @@ output * bg #1B1B1B solid_color
 #
 # Example configuration:
 #
-set $laptop_display $(swaymsg -t get_outputs | jq -r '.[] | select(.make=="Najing CEC Panda FPD Technology CO. ltd").name') 
+set $laptop_display $(swaymsg -t get_outputs | jq -r '.[] | select(.make=="Najing CEC Panda FPD Technology CO. ltd").name')
 exec swaymsg output $laptop_display resolution 1920x1080 position 1920 0 scale 1.25
 output HDMI-A-1 resolution 1920x1080 position 0,0
 #
@@ -118,14 +118,13 @@ exec swayidle \
     # Start your launcher
     bindsym $mod+d exec $menu
 
-    # firfoc
     bindsym $mod+w exec firefox
 
-    # a$$word
+    # password manager
     bindsym $mod+p exec keepassxc
 
-    # sloppytop
-    bindsym $mod+Escape exec kitty --class=float-win -e btop
+    # system monitor
+    bindsym $mod+Escape exec wezterm start --class float-win btop
 
     # screenshot
     bindsym $mod+Shift+s exec grim -g "$(slurp)" $HOME/grim_screenshots/$(date +"%Y-%m-%d_%Hh%Mm%Ss")_grim.png
