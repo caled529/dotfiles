@@ -24,10 +24,9 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevel = 20
 
 vim.opt.undofile = true
-
-vim.opt.clipboard = "unnamedplus"
