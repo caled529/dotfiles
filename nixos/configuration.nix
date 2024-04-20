@@ -144,15 +144,6 @@
 
   programs.zsh.enable = true;
 
-  # Ideally SwayFX and related setup would exist in a home-manager file.
-  security.polkit.enable = true;
-  programs.sway = {
-    enable = true;
-    package = pkgs.swayfx;
-    extraPackages = with pkgs; [swaylock swayidle kitty bemenu waybar wl-clipboard];
-    wrapperFeatures.gtk = true;
-  };
-
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [

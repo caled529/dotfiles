@@ -30,11 +30,24 @@
     };
   in {
     nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs system pkgs-stable;};
+      sway = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs system pkgs-stable;
+        };
 
         modules = [
           ./configuration.nix
+          ./swayfx.nix
+        ];
+      };
+      gaming = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs system pkgs-stable;
+        };
+
+        modules = [
+          ./configuration.nix
+          ./nvidia-proprietary.nix
         ];
       };
     };
