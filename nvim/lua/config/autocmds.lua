@@ -1,7 +1,10 @@
-------------------------------- ON LOAD AUTOCMDS -------------------------------
-local on_load_autocmds = vim.api.nvim_create_augroup("On-load auto-commands", { clear = true })
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
 
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+------------------------------- ON LOAD AUTOCMDS -------------------------------
+local on_load_autocmds = augroup("On-load auto-commands", { clear = true })
+
+autocmd({ "BufWinEnter" }, {
 	desc = "Open all folds on buffer load",
 	callback = function()
 		vim.cmd(":silent! :loadview")
@@ -10,9 +13,9 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 })
 
 ------------------------------- ON SAVE AUTOCMDS -------------------------------
-local on_save_autocmds = vim.api.nvim_create_augroup("On-write auto-commands", { clear = true })
+local on_save_autocmds = augroup("On-write auto-commands", { clear = true })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+autocmd({ "BufWritePost" }, {
 	pattern = { "*.c", "*.cpp", "*.java" },
 	desc = "Auto-format files supported by clang-format after saving",
 	callback = function()
@@ -22,7 +25,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	group = on_save_autocmds,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+autocmd({ "BufWritePost" }, {
 	pattern = { "*.go" },
 	desc = "Auto-format Go files after saving",
 	callback = function()
@@ -32,7 +35,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	group = on_save_autocmds,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+autocmd({ "BufWritePost" }, {
 	pattern = { "*.lua", "*.luau" },
 	desc = "Auto-format Lua files after saving",
 	callback = function()
@@ -42,7 +45,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	group = on_save_autocmds,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+autocmd({ "BufWritePost" }, {
 	pattern = { "*.md" },
 	desc = "Auto-format markdown files after saving",
 	callback = function()
@@ -52,7 +55,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	group = on_save_autocmds,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+autocmd({ "BufWritePost" }, {
 	pattern = { "*.nix" },
 	desc = "Auto-format Nix files after saving",
 	callback = function()
@@ -62,7 +65,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	group = on_save_autocmds,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+autocmd({ "BufWritePost" }, {
 	pattern = { "*.py" },
 	desc = "Auto-format Python files after saving",
 	callback = function()
@@ -72,7 +75,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	group = on_save_autocmds,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+autocmd({ "BufWritePost" }, {
 	pattern = { "*.zig" },
 	desc = "Auto-format Zig files after saving",
 	callback = function()
@@ -83,9 +86,9 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 })
 
 ------------------------------- ON EXIT AUTOCMDS -------------------------------
-local on_close_autocmds = vim.api.nvim_create_augroup("On-close auto-commands", { clear = true })
+local on_close_autocmds = augroup("On-close auto-commands", { clear = true })
 
-vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
+autocmd({ "BufWinLeave" }, {
 	desc = "Save folds on buffer exit",
 	callback = function()
 		vim.cmd(":silent! :mkview")
@@ -95,7 +98,7 @@ vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
 
 ------------------------------------ OTHER -------------------------------------
 
-vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+autocmd({ "TextYankPost" }, {
 	desc = "Briefly highlight yanked text",
 	callback = function()
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 250 })
