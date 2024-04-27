@@ -15,12 +15,14 @@
   # This would be a good place to modularize and organize packages by usage
   home.packages = with pkgs; [
     alejandra
+    anki
     bat
     blueman
     btop
     calcurse
     cargo
     delve
+    discord
     eza
     fastfetch
     fd
@@ -49,6 +51,7 @@
     spotify-player
     tree-sitter
     unzip
+    wezterm
     wineWowPackages.waylandFull
     xfce.thunar
     xfce.thunar-archive-plugin
@@ -71,6 +74,10 @@
     ideavim = {
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/ideavimrc";
       target = ".ideavimrc";
+    };
+    kanshi = {
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/kanshi";
+      target = ".config/kanshi/config";
     };
     nvim = {
       recursive = true;
