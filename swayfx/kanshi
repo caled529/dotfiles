@@ -1,0 +1,8 @@
+profile {
+  output HDMI-A-1 enable mode 1920x1080 position 0,0
+  output 'Najing CEC Panda FPD Technology CO. ltd 0x004D Unknown' enable mode 1920x1080 position 1920,0 scale 1.25
+}
+
+profile {
+  output 'Najing CEC Panda FPD Technology CO. ltd 0x004D Unknown' enable mode 1920x1080 position 0,0 scale 1.1
+}

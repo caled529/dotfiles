@@ -64,12 +64,9 @@ scratchpad_minimize disable
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg #1B1B1B solid_color
-#
-# Example configuration:
-#
-set $laptop_display $(swaymsg -t get_outputs | jq -r '.[] | select(.make=="Najing CEC Panda FPD Technology CO. ltd").name')
-exec swaymsg output $laptop_display resolution 1920x1080 position 1920 0 scale 1.25
-output HDMI-A-1 resolution 1920x1080 position 0,0
+
+exec kanshi
+exec_always kanshictl reload
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
@@ -276,7 +273,7 @@ bar swaybar_command waybar
 # Enables proper clamshell behaviour - https://github.com/swaywm/sway/wiki#clamshell-mode
 # * added pos argument makes this work with my desk monitor setup
 bindswitch --reload --locked lid:on exec swaymsg output $laptop_display disable
-bindswitch --reload --locked lid:off exec swaymsg output $laptop_display pos 1920 0 enable
+bindswitch --reload --locked lid:off exec swaymsg output $laptop_display enable
 
 # Sound controls - https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture#Keyboard_volume_control
 bindsym XF86AudioRaiseVolume exec amixer set Master 2%+
@@ -301,3 +298,4 @@ exec swaymsg input $intuos_pen map_to_output $laptop_display
 bindsym $mod+Shift+p exec swaymsg input $intuos_pad map_to_output $(swaymsg -t get_outputs | jq -r '.[] | select(.focused==true).name') && swaymsg input $intuos_pen map_to_output $(swaymsg -t get_outputs | jq -r '.[] | select(.focused==true).name')
 
 include /etc/sway/config.d/*
+
