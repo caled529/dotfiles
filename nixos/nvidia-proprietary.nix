@@ -48,8 +48,8 @@
     flitter
     lutris
     mupen64plus
+    prismlauncher
     steam
-    wezterm
   ];
 
   programs.steam = {
