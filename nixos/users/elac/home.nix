@@ -34,9 +34,7 @@
     gimp
     go
     grim
-    jdt-language-server
     jdk21
-    jetbrains.idea-ultimate
     jq
     keepassxc
     libreoffice-fresh
@@ -71,17 +69,12 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/calcurse";
       target = ".config/calcurse";
     };
-    ideavim = {
-      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/ideavimrc";
-      target = ".ideavimrc";
-    };
     kanshi = {
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/kanshi";
       target = ".config/kanshi/config";
     };
     nvim = {
       recursive = true;
-      # https://discourse.nixos.org/t/how-to-manage-dotfiles-with-home-manager/30576/3
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/nvim";
       target = ".config/nvim";
     };
@@ -90,7 +83,6 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/spotify-player";
       target = ".config/spotify-player";
     };
-    # With enough effort the config could be rewritten in nix but I'd rather not
     swayfx = {
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/config";
       target = ".config/sway/config";

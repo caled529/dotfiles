@@ -34,20 +34,24 @@
         specialArgs = {
           inherit inputs system pkgs-stable;
         };
-
         modules = [
-          ./configuration.nix
-          ./swayfx.nix
+          ./systems/nitro5/configuration.nix
+          ./desktops/swayfx.nix
         ];
       };
+
       gaming = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs system pkgs-stable;
+          intelBusId = "PCI:0:2:0";
+          nvidiaBusId = "PCI:1:0:0";
         };
-
         modules = [
-          ./configuration.nix
-          ./nvidia-proprietary.nix
+          ./desktops/gnome.nix
+          ./gaming/misc.nix
+          ./gaming/steam.nix
+          ./hardware-changes/nvidia-proprietary-drivers.nix
+          ./systems/nitro5/configuration.nix
         ];
       };
     };

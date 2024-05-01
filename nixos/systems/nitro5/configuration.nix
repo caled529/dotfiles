@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   inputs,
   config,
@@ -9,7 +6,6 @@
   ...
 }: {
   imports = [
-    # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -27,14 +23,8 @@
     };
   };
 
-  networking.hostName = "NitroNix"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Enable networking
+  networking.hostName = "NitroNix";
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/Toronto";
@@ -70,16 +60,10 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.xserver.libinput.enable = true;
 
   # Enable flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -96,7 +80,7 @@
   home-manager = {
     extraSpecialArgs = {inherit inputs;};
     users = {
-      elac = import ./home.nix;
+      elac = import ../../users/elac/home.nix;
     };
   };
 
@@ -165,7 +149,7 @@
     ];
   };
 
-  # Enables screen-sharing
+  # Enables screen-sharing on wayland.
   xdg.portal.wlr.enable = true;
 
   # Enable the OpenSSH daemon.
@@ -179,8 +163,7 @@
         ids = ["*"];
         settings.main = {
           "capslock" = "overload(control, esc)";
-          # Maps guillemets key to control. This only really applies to my
-          # laptop and maybe other canadian market laptops.
+          # Maps Canadian "guillemets" key to control.
           "102nd" = "rightcontrol";
         };
       };
