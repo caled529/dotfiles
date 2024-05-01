@@ -23,9 +23,9 @@ enable_cover_image_cache = true
 default_device = "spotify-player"
 notify_streaming_only = false
 # NixOS hook
-player_event_hook_command = { command = ".config/spotify-player/nix-spotify-player.sh", args = [] }
+layer_event_hook_command = { command = "~/.config/spotify-player/nix-spotify-player.sh", args = [] }
 # Regular hook
-# player_event_hook_command = { command = ".config/spotify-player/spotify-player.sh", args = [] }
+# player_event_hook_command = { command = "~/.config/spotify-player/spotify-player.sh", args = [] }
 
 [copy_command]
 command = "wl-copy"
