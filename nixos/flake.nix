@@ -30,6 +30,18 @@
     };
   in {
     nixosConfigurations = {
+      # Home Desktop
+      nixebeest = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs system pkgs-stable;
+        };
+        modules = [
+          ./systems/amdDesktop/configuration.nix
+          ./desktops/hyprland.nix
+          ./gaming/steam.nix
+        ];
+      };
+      # Laptop
       sway = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs system pkgs-stable;

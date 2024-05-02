@@ -27,6 +27,7 @@
     fastfetch
     fd
     firefox
+    fuse
     fzf
     gcc
     gdb
@@ -37,20 +38,25 @@
     jdk21
     jq
     keepassxc
+    kitty
     libreoffice-fresh
     lua
     neovim
     nodejs_21
+    ntfs3g
+    openrgb
     playerctl
     python3
     q4wine
     ripgrep
     slurp
     spotify-player
+    swaylock
     tree-sitter
     unzip
-    wezterm
+    waybar
     wineWowPackages.waylandFull
+    wofi
     xfce.thunar
     xfce.thunar-archive-plugin
     xfce.xfconf
@@ -178,6 +184,68 @@
 
   programs.home-manager.enable = true;
 
+  programs.kitty = {
+    enable = true;
+    font = {
+      name = "FiraCodeNerdFont";
+      package = pkgs.nerdfonts.override {fonts = ["FiraCode"];};
+      size = 12;
+    };
+    keybindings = rec {
+      mod = "super";
+      # Tabs
+      "${mod}+t" = "new_tab_with_cwd";
+      "${mod}+shift+t" = "new_tab";
+      "${mod}+shift+x" = "close_tab";
+      "${mod}+;" = "previous_tab";
+      "${mod}+'" = "next_tab";
+      "${mod}+shift+," = "move_tab_backward";
+      "${mod}+shift+." = "move_tab_forward";
+      "${mod}+1" = "goto_tab 1";
+      "${mod}+2" = "goto_tab 2";
+      "${mod}+3" = "goto_tab 3";
+      "${mod}+4" = "goto_tab 4";
+      "${mod}+5" = "goto_tab 5";
+      "${mod}+6" = "goto_tab 6";
+      "${mod}+7" = "goto_tab 7";
+      "${mod}+8" = "goto_tab 8";
+      "${mod}+9" = "goto_tab 9";
+      "${mod}+0" = "goto_tab 10";
+      # Windows (splits)
+      "${mod}+s" = "launch --location=hsplit";
+      "${mod}+v" = "launch --location=vsplit";
+      "${mod}+r" = "layout_action rotate";
+      "${mod}+x" = "close_window_with_confirmation ignore-shell";
+      "${mod}+d" = "detach_window";
+      "${mod}+h" = "neighboring_window left";
+      "${mod}+j" = "neighboring_window down";
+      "${mod}+k" = "neighboring_window up";
+      "${mod}+l" = "neighboring_window right";
+      "${mod}+shift+h" = "move_window left";
+      "${mod}+shift+j" = "move_window down";
+      "${mod}+shift+k" = "move_window up";
+      "${mod}+shift+l" = "move_window right";
+      "${mod}+shift+r" = "start_resizing_window";
+      "${mod}+=" = "reset_window_sizes";
+      "${mod}+f" = "toggle_fullscreen";
+    };
+    settings = {
+      disable_ligatures = "never";
+      copy_on_select = "yes";
+      tab_bar_edge = "top";
+      tab_bar_style = "powerline";
+      tab_powerline_style = "slanted";
+      active_tab_background = "#bbb";
+      inactive_tab_foreground = "#222";
+      inactive_tab_background = "#777";
+      background_opacity = "0.8";
+      text_fg_override_threshold = 2;
+      enabled_layouts = "splits";
+    };
+    shellIntegration.enableZshIntegration = true;
+    theme = "Space Gray Eighties"; # Source Code X
+  };
+
   programs.swaylock = {
     enable = true;
     settings = {
@@ -245,5 +313,91 @@
       vim = "nvim";
     };
     syntaxHighlighting.enable = true;
+  };
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    plugins = with pkgs.hyprlandPlugins; [
+      hy3
+    ];
+    settings = {
+      exec-once = "waybar";
+      "$mod" = "ALT";
+      "$term" = "kitty";
+      "general:layout" = "hy3";
+      bind = [
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
+        # Running applications
+        "$mod, w, exec, firefox" # browser
+        "$mod, p, exec, keepassxc" # password manager
+        "$mod, d, exec, wofi -iS drun" # search and run applications
+        "$mod SHIFT, d, exec, wofi -iS run" # search and run PATH binaries
+        "$mod, ESCAPE, exec, $term --class=btop btop" # sys-monitor
+        # Killing windows
+        "$mod SHIFT, q, hy3:killactive"
+        # Moving window focus
+        "$mod, h, hy3:movefocus, l"
+        "$mod, j, hy3:movefocus, d"
+        "$mod, k, hy3:movefocus, u"
+        "$mod, l, hy3:movefocus, r"
+        # Moving the windows
+        "$mod SHIFT, h, hy3:movewindow, l"
+        "$mod SHIFT, j, hy3:movewindow, d"
+        "$mod SHIFT, k, hy3:movewindow, u"
+        "$mod SHIFT, l, hy3:movewindow, r"
+        # Selecting workspaces
+        "$mod, 1, workspace, 1"
+        "$mod, 2, workspace, 2"
+        "$mod, 3, workspace, 3"
+        "$mod, 4, workspace, 4"
+        "$mod, 5, workspace, 5"
+        "$mod, 6, workspace, 6"
+        "$mod, 7, workspace, 7"
+        "$mod, 8, workspace, 8"
+        "$mod, 9, workspace, 9"
+        "$mod, 0, workspace, 10"
+        # Send windows to other workspaces
+        "$mod SHIFT, 1, movetoworkspacesilent, 1"
+        "$mod SHIFT, 2, movetoworkspacesilent, 2"
+        "$mod SHIFT, 3, movetoworkspacesilent, 3"
+        "$mod SHIFT, 4, movetoworkspacesilent, 4"
+        "$mod SHIFT, 5, movetoworkspacesilent, 5"
+        "$mod SHIFT, 6, movetoworkspacesilent, 6"
+        "$mod SHIFT, 7, movetoworkspacesilent, 7"
+        "$mod SHIFT, 8, movetoworkspacesilent, 8"
+        "$mod SHIFT, 9, movetoworkspacesilent, 9"
+        "$mod SHIFT, 0, movetoworkspacesilent, 10"
+      ];
+      # Key-released bindings, needed to bind modifier keys
+      bindr = [
+        "$mod, RETURN, exec, $term"
+      ];
+      # Mouse bindings
+      bindm = [
+        "$mod,mouse:272,movewindow"
+      ];
+      # Binds that repeat when held
+      binde = [
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
+      ];
+      monitor = "HDMI-A-1, 1920x1080@144Hz, 0x0, 1";
+      plugin = {
+        hy3 = {
+          no_gaps_when_only = 1;
+          autotile.enable = 1;
+        };
+      };
+      misc = {
+        force_default_wallpaper = 0; # No more anime
+        disable_hyprland_logo = 1;
+      };
+      windowrule = [
+        "float,^(btop)$"
+        "move 20% 15%,^(btop)$"
+        "size 60% 70%,^(btop)$"
+        "minsize 800 480,^(btop)$"
+      ];
+    };
   };
 }

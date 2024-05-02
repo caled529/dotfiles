@@ -1,3 +1,6 @@
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   inputs,
   config,
@@ -6,25 +9,28 @@
   ...
 }: {
   imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  boot.loader = {
-    efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot";
-    };
-    grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      useOSProber = true;
+  boot = {
+    loader = {
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+      grub = {
+        enable = true;
+        device = "nodev";
+        efiSupport = true;
+        useOSProber = true;
+      };
     };
   };
 
   # Enable networking
-  networking.hostName = "NitroNix";
+  networking.hostName = "nixebeest";
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/Toronto";
@@ -62,8 +68,6 @@
     pulse.enable = true;
     jack.enable = true;
   };
-
-  services.xserver.libinput.enable = true;
 
   # Enable flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -135,6 +139,7 @@
       glib
       gtk2
       gtk3
+      gtk4
       icu
       libgcc
       libGL
@@ -150,11 +155,18 @@
     ];
   };
 
-  # Enables screen-sharing on wayland.
+  # Enables screen-sharing
   xdg.portal.wlr.enable = true;
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+    ports = [39901];
+    settings = {
+      UseDns = true;
+    };
+  };
 
   # Key remapping service.
   services.keyd = {
@@ -164,7 +176,8 @@
         ids = ["*"];
         settings.main = {
           "capslock" = "overload(control, esc)";
-          # Maps Canadian "guillemets" key to control.
+          # Maps guillemets key to control. This only really applies to my
+          # laptop and maybe other canadian market laptops.
           "102nd" = "rightcontrol";
         };
       };
