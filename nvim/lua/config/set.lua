@@ -29,7 +29,13 @@ opt.colorcolumn = "80"
 g.mapleader = " "
 g.maplocalleader = " "
 
-opt.foldmethod = "indent"
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldlevel = 20
+function _G.BetterFoldText()
+	return vim.fn.getline(vim.v.foldstart) .. "..." .. vim.fn.getline(vim.v.foldend):gsub("%s+", "")
+end
+opt.foldtext = "v:lua.BetterFoldText()"
+vim.opt.fillchars:append({ fold = " " })
 
 opt.undofile = true
