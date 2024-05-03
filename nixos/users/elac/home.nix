@@ -42,7 +42,7 @@
     libreoffice-fresh
     lua
     neovim
-    nodejs_21
+    nodePackages_latest.nodejs
     ntfs3g
     openrgb
     playerctl
