@@ -60,6 +60,7 @@
         };
         modules = [
           ./desktops/gnome.nix
+          ./gaming/mihoyo.nix
           ./gaming/misc.nix
           ./gaming/steam.nix
           ./hardware-changes/nvidia-proprietary-drivers.nix
