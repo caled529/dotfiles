@@ -212,8 +212,8 @@
       "${mod}+9" = "goto_tab 9";
       "${mod}+0" = "goto_tab 10";
       # Windows (splits)
-      "${mod}+s" = "launch --location=hsplit";
-      "${mod}+v" = "launch --location=vsplit";
+      "${mod}+s" = "launch --location=hsplit --cwd=current";
+      "${mod}+v" = "launch --location=vsplit --cwd=current";
       "${mod}+r" = "layout_action rotate";
       "${mod}+x" = "close_window_with_confirmation ignore-shell";
       "${mod}+d" = "detach_window";
