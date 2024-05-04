@@ -1,16 +1,21 @@
 {
+    // IMPORTANT NOTE: HYPRLAND NEEDS DIFFERENT STUFF IN HERE THAN SWAY DOES
+    // NEED TO FIGURE OUT HOW TO HAVE DIFFERENT VERSIONS DEPENDING ON WHAT'S
+    // BEING USED
+
+
     // "layer": "top", // Waybar at top layer
     // "position": "bottom", // Waybar position (top|bottom|left|right)
     "height": 24, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     //"spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad", "custom/media"],
-    "modules-center": ["sway/window"],
+    "modules-left": ["hyprland/workspaces", "hyprland/mode", "hyprland/scratchpad", "custom/media"],
+    "modules-center": ["hyprland/window"],
     //"modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "battery", "battery#bat2", "clock", "tray"],
     "modules-right": ["mpd", "idle_inhibitor", "temperature", "cpu", "memory","network", "pulseaudio", "keyboard-state", "battery", "tray", "clock"],
     // Modules configuration
-    // "sway/workspaces": {
+    // "hyprland/workspaces": {
     //     "disable-scroll": true,
     //     "all-outputs": true,
     //     "warp-on-scroll": false,
@@ -35,10 +40,10 @@
             "unlocked": ""
         }
     },
-    "sway/mode": {
+    "hyprland/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
-    "sway/scratchpad": {
+    "hyprland/scratchpad": {
         "format": "{icon} {count}",
         "show-empty": false,
         "format-icons": ["", ""],
