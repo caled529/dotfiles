@@ -39,6 +39,7 @@
           ./systems/amdDesktop/configuration.nix
           ./desktops/hyprland.nix
           ./gaming/steam.nix
+          ./gaming/mihoyo.nix
         ];
       };
 
