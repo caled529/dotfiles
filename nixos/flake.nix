@@ -41,6 +41,7 @@
           ./gaming/steam.nix
         ];
       };
+
       # Laptop
       sway = nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -51,7 +52,6 @@
           ./desktops/swayfx.nix
         ];
       };
-
       gaming = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs system pkgs-stable;
@@ -64,6 +64,7 @@
           ./gaming/misc.nix
           ./gaming/steam.nix
           ./hardware-changes/nvidia-proprietary-drivers.nix
+          ./hardware-changes/v4l2.nix
           ./systems/nitro5/configuration.nix
         ];
       };
