@@ -22,7 +22,7 @@ set $term kitty
 # Default
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-set $menu bemenu-run -iw
+set $menu bemenu-run -iw --line-height 24
 
 # Additional config to allow programs to open a window and run.
 for_window [app_id="^float-win$"] floating enable, resize set width 1080 height 720
