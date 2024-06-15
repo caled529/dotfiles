@@ -47,7 +47,7 @@ autocmd({ "BufWritePost" }, {
 
 autocmd({ "BufWritePost" }, {
 	pattern = { "*.md" },
-	desc = "Auto-format markdown files after saving",
+	desc = "Auto-format Markdown files after saving",
 	callback = function()
 		local fileName = vim.api.nvim_buf_get_name(0)
 		vim.cmd(":silent :!mdformat " .. fileName)
@@ -61,6 +61,16 @@ autocmd({ "BufWritePost" }, {
 	callback = function()
 		local fileName = vim.api.nvim_buf_get_name(0)
 		vim.cmd(":silent :!alejandra " .. fileName)
+	end,
+	group = on_save_autocmds,
+})
+
+autocmd({ "BufWritePost" }, {
+	pattern = { "*.ml", "*.mli" },
+	desc = "Auto-format OCaml files after saving",
+	callback = function()
+		local fileName = vim.api.nvim_buf_get_name(0)
+		vim.cmd(":silent :!ocamlformat -i " .. fileName)
 	end,
 	group = on_save_autocmds,
 })
