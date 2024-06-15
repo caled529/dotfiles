@@ -16,7 +16,6 @@ return {
 
 		require("mason").setup({})
 		require("mason-lspconfig").setup({
-			ensure_installed = { "tsserver", "rust_analyzer" },
 			handlers = {
 				lsp_zero.default_setup,
 				lua_ls = function()
@@ -25,6 +24,8 @@ return {
 				end,
 			},
 		})
+
+		require("lspconfig").ocamllsp.setup{}
 
 		local cmp = require("cmp")
 		local cmp_action = lsp_zero.cmp_action()
