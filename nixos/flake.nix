@@ -50,6 +50,7 @@
         };
         modules = [
           ./systems/nitro5/configuration.nix
+          ./hardware-changes/v4l2.nix
           ./desktops/swayfx.nix
         ];
       };
