@@ -182,6 +182,15 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  networking.extraHosts = with pkgs-stable; ''
+    ${builtins.readFile "${
+      fetchurl {
+        url = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn-only/hosts";
+        hash = "sha256-5LNxytabTXu4L+qFLFD0wrn8Csejn+fX1kY85qLBLfc=";
+      }
+    }"}
+  '';
+
   # Just don't delete or change this unless you need to
   system.stateVersion = "23.11";
 }
