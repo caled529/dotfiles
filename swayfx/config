@@ -121,7 +121,7 @@ exec swayidle \
     bindsym $mod+p exec keepassxc
 
     # system monitor
-    bindsym $mod+Escape exec wezterm start --class float-win btop
+    bindsym $mod+Escape exec $term --class=float-win btop
 
     # screenshot
     bindsym $mod+Shift+s exec grim -g "$(slurp)" $HOME/grim_screenshots/$(date +"%Y-%m-%d_%Hh%Mm%Ss")_grim.png
