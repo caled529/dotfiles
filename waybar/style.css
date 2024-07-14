@@ -67,6 +67,10 @@ button:hover {
   background-color: #eb4d4b;
 }
 
+#workspaces button.active {
+  border-top: 2px solid #f6f1f4;
+}
+
 #mode {
   background-color: #64727D;
   border-bottom: 3px solid #ffffff;
