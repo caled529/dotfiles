@@ -163,9 +163,6 @@
     enable = true;
     openFirewall = true;
     ports = [39901];
-    settings = {
-      UseDns = true;
-    };
   };
 
   # Key remapping service.

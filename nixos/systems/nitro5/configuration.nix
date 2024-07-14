@@ -3,6 +3,7 @@
   config,
   pkgs,
   pkgs-stable,
+  hyprMonitors,
   ...
 }: {
   imports = [
@@ -78,7 +79,7 @@
 
   # Home-manager setup
   home-manager = {
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = {inherit inputs hyprMonitors;};
     users = {
       elac = import ../../users/elac/home.nix;
     };

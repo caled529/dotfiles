@@ -34,6 +34,9 @@
       nixebeest = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs system pkgs-stable;
+          hyprMonitors = [
+            "DP-1, 1920x1080@144Hz, 0x0, 1"
+          ];
         };
         modules = [
           ./systems/amdDesktop/configuration.nix
@@ -44,6 +47,26 @@
       };
 
       # Laptop
+      hypr = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs system pkgs-stable;
+          intelBusId = "PCI:0:2:0";
+          nvidiaBusId = "PCI:1:0:0";
+          hyprMonitors = [
+            "eDP-1, 1920x1080@144Hz, 1920x0, 1"
+            "eDP-2, 1920x1080@144Hz, 1920x0, 1"
+            "HDMI-A-1, 1920x1080@144Hz, 0x0, 1"
+            "HDMI-A-2, 1920x1080@144Hz, 0x0, 1"
+          ];
+        };
+        modules = [
+          ./systems/nitro5/configuration.nix
+          ./hardware-changes/nvidia-proprietary-drivers.nix
+          ./hardware-changes/v4l2.nix
+          ./desktops/hyprland.nix
+          ./gaming/steam.nix
+        ];
+      };
       sway = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs system pkgs-stable;

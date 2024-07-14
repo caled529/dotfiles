@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  hyprMonitors,
   ...
 }: {
   home.username = "elac";
@@ -381,7 +382,7 @@
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
       ];
-      monitor = "HDMI-A-1, 1920x1080@144Hz, 0x0, 1";
+      monitor = hyprMonitors;
       plugin = {
         hy3 = {
           no_gaps_when_only = 1;
