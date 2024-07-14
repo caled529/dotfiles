@@ -202,8 +202,8 @@
       "${mod}+t" = "new_tab_with_cwd";
       "${mod}+shift+t" = "new_tab";
       "${mod}+shift+x" = "close_tab";
-      "${mod}+;" = "previous_tab";
-      "${mod}+'" = "next_tab";
+      "${mod}+," = "previous_tab";
+      "${mod}+." = "next_tab";
       "${mod}+shift+," = "move_tab_backward";
       "${mod}+shift+." = "move_tab_forward";
       "${mod}+1" = "goto_tab 1";
