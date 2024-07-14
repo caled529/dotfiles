@@ -80,6 +80,10 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/swayfx/kanshi";
       target = ".config/kanshi/config";
     };
+    hypridle = {
+      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/hypr/hypridle.conf";
+      target = ".config/hypr/hypridle.conf";
+    };
     nvim = {
       recursive = true;
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/nvim";
@@ -322,18 +326,27 @@
       hy3
     ];
     settings = {
-      exec-once = "waybar";
+      exec-once = [
+        "${pkgs.hypridle}/bin/hypridle"
+        "waybar"
+      ];
       "$mod" = "ALT";
       "$term" = "kitty";
+
       "general:layout" = "hy3";
       bind = [
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
+        # Locking and sleeping the system
+        "$mod CTRL, l, exec, swaylock"
+        "$mod CTRL, s, exec, systemctl suspend"
         # Running applications
         "$mod, w, exec, firefox" # browser
         "$mod, p, exec, keepassxc" # password manager
         "$mod, d, exec, wofi -iS drun" # search and run applications
         "$mod SHIFT, d, exec, wofi -iS run" # search and run PATH binaries
-        "$mod, ESCAPE, exec, $term --class=btop btop" # sys-monitor
+        "$mod, ESCAPE, exec, $term --class=floating_util btop" # sys-monitor
+        # Screenshots
+        "$mod SHIFT, s, exec, grim -g \"$(slurp)\" $HOME/grim_screenshots/$(date +\"%Y-%m-%d_%Hh%Mm%Ss\")_grim.png"
         # Killing windows
         "$mod SHIFT, q, hy3:killactive"
         # Moving window focus
@@ -368,20 +381,32 @@
         "$mod SHIFT, 8, movetoworkspacesilent, 8"
         "$mod SHIFT, 9, movetoworkspacesilent, 9"
         "$mod SHIFT, 0, movetoworkspacesilent, 10"
-      ];
-      # Key-released bindings, needed to bind modifier keys
-      bindr = [
-        "$mod, RETURN, exec, $term"
-      ];
-      # Mouse bindings
-      bindm = [
-        "$mod,mouse:272,movewindow"
+        # Toggle floating status of focused window
+        "$mod SHIFT, SPACE, togglefloating"
+        # Toggle focus between floating and tiled windows
+        ''$mod, SPACE, exec, hyprctl dispatch focuswindow $(if [[ $(hyprctl activewindow -j | jq ."floating") == "true" ]]; then echo "tiled"; else echo "floating"; fi;)''
+        # Toggle resize mode
+        "$mod, r, submap, resize"
+        # Toggle always-on-top
+        "$mod, t, exec, hyprctl dispatch pin"
       ];
       # Binds that repeat when held
       binde = [
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
       ];
+      # Mouse bindings
+      bindm = [
+        "$mod,mouse:272,movewindow"
+      ];
+      # Key-released bindings, needed to bind modifier keys
+      bindr = [
+        "$mod, RETURN, exec, $term"
+      ];
+      misc = {
+        force_default_wallpaper = 0; # No more anime
+        disable_hyprland_logo = 1;
+      };
       monitor = hyprMonitors;
       plugin = {
         hy3 = {
@@ -389,16 +414,24 @@
           autotile.enable = 1;
         };
       };
-      misc = {
-        force_default_wallpaper = 0; # No more anime
-        disable_hyprland_logo = 1;
-      };
       windowrule = [
-        "float,^(btop)$"
-        "move 20% 15%,^(btop)$"
-        "size 60% 70%,^(btop)$"
-        "minsize 800 480,^(btop)$"
+        "float,^(floating_util)$"
+        "move 20% 15%,^(floating_util)$"
+        "size 60% 75%,^(floating_util)$"
+        "minsize 800 480,^(floating_util)$"
       ];
     };
+    # Need to use extraConfig for submap configuration
+    extraConfig = ''
+      submap = resize
+      binde = , h, resizeactive, -10 0
+      binde = , j, resizeactive, 0 -10
+      binde = , k, resizeactive, 0 10
+      binde = , l, resizeactive, 10 0
+      bindm = , mouse:272, resizewindow 1
+      bindm = SHIFT, mouse:272, resizewindow 2
+      bind = , escape, submap, reset
+      submap = reset
+    '';
   };
 }
