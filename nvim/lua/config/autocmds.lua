@@ -1,17 +1,6 @@
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
-------------------------------- ON LOAD AUTOCMDS -------------------------------
-local on_load_autocmds = augroup("On-load auto-commands", { clear = true })
-
-autocmd({ "BufWinEnter" }, {
-	desc = "Open all folds on buffer load",
-	callback = function()
-		vim.cmd(":silent! :loadview")
-	end,
-	group = on_load_autocmds,
-})
-
 ------------------------------- ON SAVE AUTOCMDS -------------------------------
 local on_save_autocmds = augroup("On-write auto-commands", { clear = true })
 
@@ -95,19 +84,7 @@ autocmd({ "BufWritePost" }, {
 	group = on_save_autocmds,
 })
 
-------------------------------- ON EXIT AUTOCMDS -------------------------------
-local on_close_autocmds = augroup("On-close auto-commands", { clear = true })
-
-autocmd({ "BufWinLeave" }, {
-	desc = "Save folds on buffer exit",
-	callback = function()
-		vim.cmd(":silent! :mkview")
-	end,
-	group = on_close_autocmds,
-})
-
 ------------------------------------ OTHER -------------------------------------
-
 autocmd({ "TextYankPost" }, {
 	desc = "Briefly highlight yanked text",
 	callback = function()
