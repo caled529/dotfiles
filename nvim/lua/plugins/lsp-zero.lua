@@ -25,6 +25,7 @@ return {
 			},
 		})
 
+		require("lspconfig").clangd.setup({})
 		require("lspconfig").ocamllsp.setup({})
 		require("lspconfig").pyright.setup({})
 
