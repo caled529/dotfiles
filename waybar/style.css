@@ -71,9 +71,9 @@ button:hover {
   border-top: 2px solid #f6f1f4;
 }
 
-#mode {
-  background-color: #64727D;
-  border-bottom: 3px solid #ffffff;
+#submap {
+  background-color: #dd0000;
+  font-style: italic;
 }
 
 #clock,
