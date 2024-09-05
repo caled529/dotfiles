@@ -6,6 +6,7 @@
   config,
   pkgs,
   pkgs-stable,
+  hyprExtra,
   ...
 }: {
   imports = [
@@ -86,7 +87,7 @@
 
   # Home-manager setup
   home-manager = {
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = {inherit inputs hyprExtra;};
     users = {
       elac = import ../../users/elac/home.nix;
     };

@@ -34,15 +34,29 @@
       nixebeest = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs system pkgs-stable;
-          hyprMonitors = [
-            "DP-1, 1920x1080@144Hz, 0x0, 1"
-          ];
+          hyprExtra = ''
+            monitor = DP-1, 2560x1440@180Hz, 0x0, 1
+            monitor = DP-2, 1920x1080@144Hz, 2560x0, 1, transform, 3
+            workspace = 1, monitor:DP-1
+            workspace = 2, monitor:DP-1
+            workspace = 3, monitor:DP-1
+            workspace = 4, monitor:DP-1
+            workspace = 5, monitor:DP-1
+            workspace = 6, monitor:DP-2
+            workspace = 7, monitor:DP-2
+            workspace = 8, monitor:DP-2
+            workspace = 9, monitor:DP-2
+            workspace = 10, monitor:DP-2
+          '';
         };
         modules = [
           ./systems/amdDesktop/configuration.nix
           ./desktops/hyprland.nix
-          ./gaming/steam.nix
           ./gaming/mihoyo.nix
+          ./gaming/misc.nix
+          ./gaming/retroarch.nix
+          ./gaming/steam.nix
+          ./hardware-changes/v4l2.nix
         ];
       };
 
@@ -52,12 +66,12 @@
           inherit inputs system pkgs-stable;
           intelBusId = "PCI:0:2:0";
           nvidiaBusId = "PCI:1:0:0";
-          hyprMonitors = [
-            "eDP-1, 1920x1080@144Hz, 1920x0, 1"
-            "eDP-2, 1920x1080@144Hz, 1920x0, 1"
-            "HDMI-A-1, 1920x1080@144Hz, 0x0, 1"
-            "HDMI-A-2, 1920x1080@144Hz, 0x0, 1"
-          ];
+          hyprExtra = ''
+            monitor = eDP-1, 1920x1080@144Hz, 1920x0, 1
+            monitor = eDP-2, 1920x1080@144Hz, 1920x0, 1
+            monitor = HDMI-A-1, 1920x1080@144Hz, 0x0, 1
+            monitor = HDMI-A-2, 1920x1080@144Hz, 0x0, 1
+          '';
         };
         modules = [
           ./systems/nitro5/configuration.nix
