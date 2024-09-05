@@ -12,6 +12,11 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
+    # Driver patch for this computer's motherboard - currently no flake support for this patch
+    "${builtins.fetchGit {
+      url = "https://github.com/NixOS/nixos-hardware.git";
+      rev = "ae5c8dcc4d0182d07d75df2dc97112de822cb9d6";
+    }}/gigabyte/b550"
   ];
 
   boot = {
@@ -58,7 +63,6 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -117,10 +121,9 @@
   };
 
   # Enables OpenGL
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   hardware.bluetooth.enable = true;
@@ -130,6 +133,8 @@
     enable = true;
     # enableSSHSupport = true;
   };
+
+  programs.kdeconnect.enable = true;
 
   programs.zsh.enable = true;
 
@@ -144,7 +149,9 @@
       libgcc
       libGL
       libGLU
+      libxkbcommon
       openal
+      rocmPackages.rocm-smi
       stdenv.cc.cc.lib
       xorg.libX11
       xorg.libXi
@@ -155,15 +162,14 @@
     ];
   };
 
-  # Enables screen-sharing
-  xdg.portal.wlr.enable = true;
-
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
     openFirewall = true;
     ports = [39901];
   };
+
+  services.fail2ban.enable = true;
 
   # Key remapping service.
   services.keyd = {
@@ -185,6 +191,16 @@
 
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+
+  # OpenRGB
+  services.udev = {
+    enable = true;
+    packages = with pkgs; [
+      openrgb
+    ];
+  };
+  hardware.i2c.enable = true;
+  boot.kernelModules = ["i2c-dev" "i2c-piix4"];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
