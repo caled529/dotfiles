@@ -10,14 +10,14 @@
     // "width": 1280, // Waybar width
     //"spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["hyprland/workspaces", "hyprland/mode", "hyprland/scratchpad", "custom/media"],
+    "modules-left": ["hyprland/workspaces", "hyprland/submap", "hyprland/scratchpad", "custom/media"],
     "modules-center": ["hyprland/window"],
     //"modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "battery", "battery#bat2", "clock", "tray"],
     "modules-right": ["mpd", "tray", "idle_inhibitor", "temperature", "cpu", "memory","network", "pulseaudio", "clock"],
     // Modules configuration
     "hyprland/workspaces": {
         "disable-scroll": true,
-        "all-outputs": true,
+        "all-outputs": false,
         "warp-on-scroll": false,
     },
     "keyboard-state": {
@@ -151,7 +151,7 @@
 //            "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "kitty --class=floating_util alsamixer"
+        "on-click": "myxer"
     },
     "custom/media": {
         "format": "{icon} {}",
