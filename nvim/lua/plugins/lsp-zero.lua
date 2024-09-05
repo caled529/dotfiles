@@ -28,6 +28,7 @@ return {
 		require("lspconfig").clangd.setup({})
 		require("lspconfig").ocamllsp.setup({})
 		require("lspconfig").pyright.setup({})
+		require("lspconfig").zls.setup({})
 
 		local cmp = require("cmp")
 		local cmp_action = lsp_zero.cmp_action()
