@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  hyprMonitors,
+  hyprExtra,
   ...
 }: {
   home.username = "elac";
@@ -23,7 +23,6 @@
     calcurse
     cargo
     delve
-    discord
     eza
     fastfetch
     fd
@@ -42,6 +41,7 @@
     kitty
     libreoffice-fresh
     lua
+    myxer
     neovim
     nodePackages_latest.nodejs
     ntfs3g
@@ -55,6 +55,7 @@
     swaylock
     tree-sitter
     unzip
+    vesktop
     waybar
     wineWowPackages.waylandFull
     wofi
@@ -278,6 +279,26 @@
     };
   };
 
+  programs.tmux = {
+    enable = true;
+    baseIndex = 1;
+    clock24 = true;
+    extraConfig = ''
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
+    '';
+    keyMode = "vi";
+    mouse = true;
+    newSession = true;
+    plugins = with pkgs.tmuxPlugins; [
+      gruvbox
+    ];
+    prefix = "C-Space";
+    terminal = "screen-256color";
+  };
+
   # Better cd
   programs.zoxide = {
     enable = true;
@@ -328,14 +349,68 @@
     settings = {
       exec-once = [
         "${pkgs.hypridle}/bin/hypridle"
+        "${pkgs.playerctl}/bin/playerctld"
         "waybar"
       ];
       "$mod" = "ALT";
       "$term" = "kitty";
 
       "general:layout" = "hy3";
-      bind = [
+      bind = let
+        focusLeft = pkgs.writeShellScript "focusLeft.sh" ''
+          active_address=$(hyprctl activewindow -j | jq -r .address)
+          hyprctl dispatch hy3:movefocus l
+          if [[ $active_address = $(hyprctl activewindow -j | jq -r .address) ]]
+          then
+            focused_monitor_id=$(hyprctl activeworkspace -j | jq -r .monitorID)
+            left_active_workspace_id=$(hyprctl monitors -j | jq -r ". | sort_by(.x)[$(echo $(($focused_monitor_id - 1)) | awk '{print($0<0?0:$0)}')] | .activeWorkspace.id")
+            active_floating=$(hyprctl activewindow -j | jq -r .floating)
+            left_window_addr=$(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$left_active_workspace_id)] | sort_by(.at[0]) | sort_by(.floating==$active_floating)[-1]| .address")
+            hyprctl dispatch focuswindow address:$left_window_addr
+          fi
+        '';
+        focusRight = pkgs.writeShellScript "focusRight.sh" ''
+          active_address=$(hyprctl activewindow -j | jq -r .address)
+          hyprctl dispatch hy3:movefocus r
+          if [[ $active_address = $(hyprctl activewindow -j | jq -r .address) ]]
+          then
+            focused_monitor_id=$(hyprctl activeworkspace -j | jq -r .monitorID)
+            right_active_workspace_id=$(hyprctl monitors -j | jq -r ". | sort_by(.x)[$(($focused_monitor_id + 1))] | .activeWorkspace.id")
+            active_floating=$(hyprctl activewindow -j | jq -r .floating)
+            right_window_addr=$(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$right_active_workspace_id)] | sort_by(.at[0]) | reverse | sort_by(.floating==$active_floating)[-1]| .address")
+            hyprctl dispatch focuswindow address:$right_window_addr
+          fi
+        '';
+        movewindowLeft = pkgs.writeShellScript "movewindowLeft.sh" ''
+          active_window_pos_x=$(hyprctl activewindow -j | jq -r ".at[0]")
+          hyprctl dispatch hy3:movewindow l
+          if [[ $active_window_pos_x = $(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$(hyprctl activeworkspace -j | jq -r .id)).at[0]] | min") ]]
+          then
+            focused_monitor_id=$(hyprctl activeworkspace -j | jq -r .monitorID)
+            left_active_workspace_id=$(hyprctl monitors -j | jq -r ". | sort_by(.x)[$(echo $(($focused_monitor_id - 1)) | awk '{print($0<0?0:$0)}')] | .activeWorkspace.id")
+            hyprctl dispatch movetoworkspace $left_active_workspace_id
+          fi
+        '';
+        movewindowRight = pkgs.writeShellScript "movewindowRight.sh" ''
+          active_window_pos_x=$(hyprctl activewindow -j | jq -r ".at[0]")
+          hyprctl dispatch hy3:movewindow r
+          if [[ $active_window_pos_x = $(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$(hyprctl activeworkspace -j | jq -r .id)).at[0]] | max") ]]
+          then
+            focused_monitor_id=$(hyprctl activeworkspace -j | jq -r .monitorID)
+            right_active_workspace_id=$(hyprctl monitors -j | jq -r ". | sort_by(.x)[$(($focused_monitor_id + 1))] | .activeWorkspace.id")
+            hyprctl dispatch movetoworkspace $right_active_workspace_id
+          fi
+        '';
+        currMonitor = ''$(hyprctl activeworkspace -j | jq .monitorID)'';
+        nextMonitor = ''$((${currMonitor} + 1))'';
+        prevMonitor = ''$(echo $((${currMonitor} - 1)) | awk '{print($0<0?0:$0)}')'';
+        nextMonitorWorkspace = ''$(hyprctl monitors -j | jq ".[] | select(.id==${nextMonitor}).activeWorkspace.id")'';
+        prevMonitorWorkspace = ''$(hyprctl monitors -j | jq ".[] | select(.id==${prevMonitor}).activeWorkspace.id")'';
+      in [
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
+        ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause"
+        ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next"
+        ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous"
         # Locking and sleeping the system
         "$mod CTRL, l, exec, swaylock"
         "$mod CTRL, s, exec, systemctl suspend"
@@ -350,15 +425,15 @@
         # Killing windows
         "$mod SHIFT, q, hy3:killactive"
         # Moving window focus
-        "$mod, h, hy3:movefocus, l"
+        "$mod, h, exec, ${focusLeft}"
         "$mod, j, hy3:movefocus, d"
         "$mod, k, hy3:movefocus, u"
-        "$mod, l, hy3:movefocus, r"
+        "$mod, l, exec, ${focusRight}"
         # Moving the windows
-        "$mod SHIFT, h, hy3:movewindow, l"
+        "$mod SHIFT, h, exec, ${movewindowLeft}"
         "$mod SHIFT, j, hy3:movewindow, d"
         "$mod SHIFT, k, hy3:movewindow, u"
-        "$mod SHIFT, l, hy3:movewindow, r"
+        "$mod SHIFT, l, exec, ${movewindowRight}"
         # Selecting workspaces
         "$mod, 1, workspace, 1"
         "$mod, 2, workspace, 2"
@@ -389,25 +464,36 @@
         "$mod, r, submap, resize"
         # Toggle always-on-top
         "$mod, t, exec, hyprctl dispatch pin"
+        # Toggle fullscreen on focused window
+        "$mod, f, fullscreen"
+        # Change focus to next/previous monitor
+        "$mod, code:60, exec, hyprctl dispatch focusmonitor ${nextMonitor}"
+        "$mod, code:59, exec, hyprctl dispatch focusmonitor ${prevMonitor}"
+        # Send active window to next/previous monitor
+        "$mod SHIFT, code:60, exec, hyprctl dispatch movetoworkspace ${nextMonitorWorkspace}"
+        "$mod SHIFT, code:59, exec, hyprctl dispatch movetoworkspace ${prevMonitorWorkspace}"
       ];
       # Binds that repeat when held
       binde = [
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+"
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 2%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
       ];
       # Mouse bindings
       bindm = [
-        "$mod,mouse:272,movewindow"
+        "$mod, mouse:272, movewindow"
       ];
       # Key-released bindings, needed to bind modifier keys
       bindr = [
         "$mod, RETURN, exec, $term"
       ];
+      cursor = {
+        hide_on_key_press = true;
+        no_warps = true;
+      };
       misc = {
         force_default_wallpaper = 0; # No more anime
         disable_hyprland_logo = 1;
       };
-      monitor = hyprMonitors;
       plugin = {
         hy3 = {
           no_gaps_when_only = 1;
@@ -422,16 +508,23 @@
       ];
     };
     # Need to use extraConfig for submap configuration
-    extraConfig = ''
-      submap = resize
-      binde = , h, resizeactive, -10 0
-      binde = , j, resizeactive, 0 -10
-      binde = , k, resizeactive, 0 10
-      binde = , l, resizeactive, 10 0
-      bindm = , mouse:272, resizewindow 1
-      bindm = SHIFT, mouse:272, resizewindow 2
-      bind = , escape, submap, reset
-      submap = reset
-    '';
+    extraConfig =
+      ''
+        submap = resize
+        binde = , h, resizeactive, -10 0
+        binde = , j, resizeactive, 0 -10
+        binde = , k, resizeactive, 0 10
+        binde = , l, resizeactive, 10 0
+        binde = SHIFT, h, resizeactive, -50 0
+        binde = SHIFT, j, resizeactive, 0 -50
+        binde = SHIFT, k, resizeactive, 0 50
+        binde = SHIFT, l, resizeactive, 50 0
+        bindm = , mouse:272, resizewindow 1
+        bindm = SHIFT, mouse:272, resizewindow 2
+        bindm = $mod, mouse:272, movewindow"
+        bind = , escape, submap, reset
+        submap = reset
+      ''
+      + hyprExtra;
   };
 }
