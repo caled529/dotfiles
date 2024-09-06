@@ -47,6 +47,9 @@ set("n", "]d", vim.diagnostic.goto_prev)
 set("n", "<leader>ca", vim.lsp.buf.code_action)
 set("n", "<leader>rf", vim.lsp.buf.references)
 set("n", "<leader>rn", vim.lsp.buf.rename)
+set("n", "<C-h>", function()
+	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end)
 
 -- telescope
 local builtin = require("telescope.builtin")
@@ -55,7 +58,7 @@ local builtin = require("telescope.builtin")
 local find_root_dir = function()
 	local root_dir
 	-- ask active language server on current buffer for root_dir
-	local cur_buffer_lsp_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+	local cur_buffer_lsp_clients = vim.lsp.get_clients({ bufnr = 0 })
 	for _, _ in pairs(cur_buffer_lsp_clients) do -- check >=1 language server returned
 		root_dir = cur_buffer_lsp_clients[1].config.root_dir
 		break
