@@ -298,6 +298,12 @@
         plugin = resurrect;
         extraConfig = "set -g @resurrect-strategy-nvim 'session'";
       }
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+        '';
+      }
     ];
     prefix = "C-Space";
     terminal = "screen-256color";
