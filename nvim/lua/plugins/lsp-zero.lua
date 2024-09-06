@@ -1,6 +1,6 @@
 return {
 	"VonHeikemen/lsp-zero.nvim",
-	branch = "v3.x",
+	branch = "v4.x",
 	dependencies = {
 		{ "williamboman/mason.nvim" },
 		{ "williamboman/mason-lspconfig.nvim" },
@@ -26,6 +26,19 @@ return {
 		})
 
 		require("lspconfig").clangd.setup({})
+		require("lspconfig").gopls.setup({
+			settings = {
+				gopls = {
+					["ui.inlayhint.hints"] = {
+						assignVariableTypes = false,
+						compositeLiteralFields = false,
+						compositeLiteralTypes = false,
+						parameterNames = true,
+						rangeVariableTypes = true,
+					},
+				},
+			},
+		})
 		require("lspconfig").ocamllsp.setup({})
 		require("lspconfig").pyright.setup({})
 		require("lspconfig").zls.setup({})
@@ -41,10 +54,10 @@ return {
 				{ name = "luasnip", keyword_length = 2 },
 				{ name = "buffer", keyword_length = 3 },
 			},
-			formatting = lsp_zero.cmp_format(),
+			formatting = lsp_zero.cmp_format({}),
 			mapping = cmp.mapping.preset.insert({
 				["<Tab>"] = cmp_action.tab_complete(),
-				["<S-Tab>"] = cmp_action.select_prev_or_fallback(),
+				["<S-Tab>"] = cmp.mapping.select_prev_item({ behaviour = "select" }),
 				["<S-Enter>"] = cmp.mapping.confirm({ select = false }),
 			}),
 		})
