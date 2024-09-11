@@ -161,6 +161,20 @@
     EDITOR = "nvim";
   };
 
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      font = {
+        normal = {
+          family = "FiraCode Nerd Font Mono";
+          style = "Regular";
+        };
+        size = 12;
+      };
+      shell = "${pkgs.zsh}/bin/zsh";
+    };
+  };
+
   # Better cat
   programs.bat.enable = true;
 
@@ -249,7 +263,7 @@
       enabled_layouts = "splits";
     };
     shellIntegration.enableZshIntegration = true;
-    theme = "Space Gray Eighties"; # Source Code X
+    theme = "Catppuccin-Mocha";
   };
 
   programs.swaylock = {
@@ -283,7 +297,9 @@
     enable = true;
     baseIndex = 1;
     clock24 = true;
+    escapeTime = 10;
     extraConfig = ''
+      set -g status-position top
       bind h select-pane -L
       bind j select-pane -D
       bind k select-pane -U
@@ -293,7 +309,12 @@
     mouse = true;
     newSession = true;
     plugins = with pkgs.tmuxPlugins; [
-      gruvbox
+      {
+        plugin = catppuccin;
+        extraConfig = ''
+          set -g @catppuccin_status_modules_right "directory user host session"
+        '';
+      }
       {
         plugin = resurrect;
         extraConfig = "set -g @resurrect-strategy-nvim 'session'";
@@ -363,7 +384,7 @@
         "waybar"
       ];
       "$mod" = "ALT";
-      "$term" = "kitty";
+      "$term" = "alacritty";
 
       "general:layout" = "hy3";
       bind = let
