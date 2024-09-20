@@ -396,7 +396,8 @@
             focused_monitor_id=$(hyprctl activeworkspace -j | jq -r .monitorID)
             left_active_workspace_id=$(hyprctl monitors -j | jq -r ". | sort_by(.x)[$(echo $(($focused_monitor_id - 1)) | awk '{print($0<0?0:$0)}')] | .activeWorkspace.id")
             active_floating=$(hyprctl activewindow -j | jq -r .floating)
-            left_window_addr=$(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$left_active_workspace_id)] | sort_by(.at[0]) | sort_by(.floating==$active_floating)[-1]| .address")
+            left_window_x=$(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$left_active_workspace_id)] | sort_by(.at[0]) | sort_by(.floating==$active_floating)[-1].at[0]")
+            left_window_addr=$(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$left_active_workspace_id) | select(.at[0]==$left_window_x)] | sort_by(.focusHistoryID)[0].address")
             hyprctl dispatch focuswindow address:$left_window_addr
           fi
         '';
@@ -408,7 +409,8 @@
             focused_monitor_id=$(hyprctl activeworkspace -j | jq -r .monitorID)
             right_active_workspace_id=$(hyprctl monitors -j | jq -r ". | sort_by(.x)[$(($focused_monitor_id + 1))] | .activeWorkspace.id")
             active_floating=$(hyprctl activewindow -j | jq -r .floating)
-            right_window_addr=$(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$right_active_workspace_id)] | sort_by(.at[0]) | reverse | sort_by(.floating==$active_floating)[-1]| .address")
+            right_window_x=$(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$right_active_workspace_id)] | sort_by(.at[0]) | reverse | sort_by(.floating==$active_floating)[-1].at[0]")
+            right_window_addr=$(hyprctl clients -j | jq -r "[.[] | select(.workspace.id==$right_active_workspace_id) | select(.at[0]==$right_window_x)] | sort_by(.focusHistoryID)[0].address")
             hyprctl dispatch focuswindow address:$right_window_addr
           fi
         '';
