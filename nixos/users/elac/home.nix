@@ -178,6 +178,12 @@
   # Better cat
   programs.bat.enable = true;
 
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+
   # Better ls
   programs.eza = {
     enable = true;
