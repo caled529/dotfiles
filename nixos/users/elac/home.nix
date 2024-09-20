@@ -452,7 +452,7 @@
         "$mod, p, exec, keepassxc" # password manager
         "$mod, d, exec, wofi -iS drun" # search and run applications
         "$mod SHIFT, d, exec, wofi -iS run" # search and run PATH binaries
-        "$mod, ESCAPE, exec, $term --class=floating_util btop" # sys-monitor
+        "$mod, ESCAPE, exec, $term --class=floating_util -e btop" # sys-monitor
         # Screenshots
         "$mod SHIFT, s, exec, grim -g \"$(slurp)\" $HOME/grim_screenshots/$(date +\"%Y-%m-%d_%Hh%Mm%Ss\")_grim.png"
         # Killing windows
