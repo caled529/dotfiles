@@ -294,6 +294,10 @@
     newSession = true;
     plugins = with pkgs.tmuxPlugins; [
       gruvbox
+      {
+        plugin = resurrect;
+        extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+      }
     ];
     prefix = "C-Space";
     terminal = "screen-256color";
