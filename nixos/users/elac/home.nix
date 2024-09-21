@@ -318,7 +318,9 @@
       {
         plugin = catppuccin;
         extraConfig = ''
-          set -g @catppuccin_status_modules_right "directory user host session"
+          set -g @catppuccin_window_current_text "#W"
+          set -g @catppuccin_window_default_text "#W"
+          set -g @catppuccin_status_modules_right "session user host"
         '';
       }
       {
@@ -359,9 +361,7 @@
               echo " $branch "
           fi
       }
-      PROMPT='%{%F{014}%}┌[%{%F{012}%}%n@%m %{%F{005}%}%d%{%F{014%}%}]
-      └► %{%F{013}%}%1~ %{%F{011}%}$(parse_git_branch)%{%F{007}%}$ %{%F{}%}'
-      RPROMPT='%{%F{007}%}[%*]'
+      PROMPT=' %{%F{013}%}%~ %{%F{011}%}$(parse_git_branch)%{%F{007}%}$ %{%F{}%}'
 
       bindkey '^[[Z' autosuggest-accept
 
