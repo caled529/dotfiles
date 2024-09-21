@@ -33,6 +33,8 @@ return {
 						assignVariableTypes = false,
 						compositeLiteralFields = false,
 						compositeLiteralTypes = false,
+						functionTypeParameters = false,
+						constantValues = false,
 						parameterNames = true,
 						rangeVariableTypes = true,
 					},
