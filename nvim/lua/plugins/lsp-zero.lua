@@ -59,7 +59,7 @@ return {
 			formatting = lsp_zero.cmp_format({}),
 			mapping = cmp.mapping.preset.insert({
 				["<Tab>"] = cmp_action.tab_complete(),
-				["<S-Tab>"] = cmp_action.select_prev_or_fallback(),
+				["<S-Tab>"] = cmp.mapping.select_prev_item({ behaviour = "select" }),
 				["<Enter>"] = cmp.mapping.confirm({ select = false }),
 			}),
 		})
