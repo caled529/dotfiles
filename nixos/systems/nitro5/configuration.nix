@@ -3,9 +3,8 @@
   config,
   pkgs,
   pkgs-stable,
-  hyprMonitors,
   ...
-}: {
+} @ args: {
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
@@ -52,8 +51,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -79,9 +76,27 @@
 
   # Home-manager setup
   home-manager = {
-    extraSpecialArgs = {inherit inputs hyprMonitors;};
+    extraSpecialArgs = {
+      inherit inputs;
+      hyprExtra = args.hyprExtra;
+    };
     users = {
       elac = import ../../users/elac/home.nix;
+    };
+  };
+
+  security.wrappers = {
+    dlv = {
+      owner = "root";
+      group = "wheel";
+      capabilities = "cap_sys_ptrace+ep";
+      source = "${pkgs.delve}/bin/dlv";
+    };
+    go = {
+      owner = "root";
+      group = "wheel";
+      capabilities = "cap_sys_ptrace+ep";
+      source = "${pkgs.go}/bin/go";
     };
   };
 
@@ -114,13 +129,19 @@
   };
 
   # Enables OpenGL
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
+    };
+  };
 
   # Key management
   programs.gnupg.agent = {
@@ -174,23 +195,19 @@
 
   services.gvfs.enable = true;
 
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+  };
   programs.virt-manager.enable = true;
+
+  services.usbmuxd.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  networking.extraHosts = with pkgs-stable; ''
-    ${builtins.readFile "${
-      fetchurl {
-        url = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn-only/hosts";
-        hash = "sha256-5LNxytabTXu4L+qFLFD0wrn8Csejn+fX1kY85qLBLfc=";
-      }
-    }"}
-  '';
 
   # Just don't delete or change this unless you need to
   system.stateVersion = "23.11";

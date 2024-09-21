@@ -1,9 +1,14 @@
 {
+  inputs,
   config,
   pkgs,
   hyprExtra,
   ...
 }: {
+  imports = [
+    inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
+  ];
+
   home.username = "elac";
   home.homeDirectory = "/home/elac";
 
@@ -210,6 +215,8 @@
 
   programs.home-manager.enable = true;
 
+  programs.hyprcursor-phinger.enable = true;
+
   programs.kitty = {
     enable = true;
     font = {
@@ -372,6 +379,7 @@
       ls = "eza --grid -la";
       cat = "bat";
       neofetch = "fastfetch";
+      nd = "nix develop";
       vi = "nvim";
       vim = "nvim";
     };
@@ -384,10 +392,32 @@
       hy3
     ];
     settings = {
+      env = let
+        hyprcursorTheme = "phinger-cursors-dark-hyprcursor";
+        xcursorTheme = "${pkgs.phinger-cursors}/share/icons/phinger-cursors-dark";
+      in [
+        "HYPRCURSOR_THEME,${hyprcursorTheme}"
+        "HYPRCURSOR_SIZE,24"
+        "XCURSOR_THEME,${xcursorTheme}"
+        "XCURSOR_SIZE,24"
+      ];
       exec-once = [
         "${pkgs.hypridle}/bin/hypridle"
         "${pkgs.playerctl}/bin/playerctld"
         "waybar"
+      ];
+      exec = let
+        gtkConfig = "\${XDG_CONFIG_HOME:-$HOME/.config}/gtk-3.0/settings.ini";
+        gnomeSchema = "org.gnome.desktop.interface";
+        gtkTheme = ''$(grep 'gtk-theme-name' ${gtkConfig} | sed 's/.*\s*=\s*//')'';
+        iconTheme = ''$(grep 'gtk-icon-theme-name' ${gtkConfig} | sed 's/.*\s*=\s*//')'';
+        cursorTheme = "Phinger Cursors (dark)";
+        fontName = ''$(grep 'gtk-font-name' ${gtkConfig} | sed 's/.*\s*=\s*//')'';
+      in [
+        "${pkgs.glib}/bin/gsettings set ${gnomeSchema} gtk-theme ${gtkTheme}"
+        "${pkgs.glib}/bin/gsettings set ${gnomeSchema} icon-theme ${iconTheme}"
+        ''${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/cursor-theme "'${cursorTheme}'"''
+        "${pkgs.glib}/bin/gsettings set ${gnomeSchema} font-name ${fontName}"
       ];
       "$mod" = "ALT";
       "$term" = "alacritty";
@@ -485,16 +515,16 @@
         "$mod, 9, workspace, 9"
         "$mod, 0, workspace, 10"
         # Send windows to other workspaces
-        "$mod SHIFT, 1, movetoworkspacesilent, 1"
-        "$mod SHIFT, 2, movetoworkspacesilent, 2"
-        "$mod SHIFT, 3, movetoworkspacesilent, 3"
-        "$mod SHIFT, 4, movetoworkspacesilent, 4"
-        "$mod SHIFT, 5, movetoworkspacesilent, 5"
-        "$mod SHIFT, 6, movetoworkspacesilent, 6"
-        "$mod SHIFT, 7, movetoworkspacesilent, 7"
-        "$mod SHIFT, 8, movetoworkspacesilent, 8"
-        "$mod SHIFT, 9, movetoworkspacesilent, 9"
-        "$mod SHIFT, 0, movetoworkspacesilent, 10"
+        "$mod SHIFT, 1, hy3:movetoworkspace, 1"
+        "$mod SHIFT, 2, hy3:movetoworkspace, 2"
+        "$mod SHIFT, 3, hy3:movetoworkspace, 3"
+        "$mod SHIFT, 4, hy3:movetoworkspace, 4"
+        "$mod SHIFT, 5, hy3:movetoworkspace, 5"
+        "$mod SHIFT, 6, hy3:movetoworkspace, 6"
+        "$mod SHIFT, 7, hy3:movetoworkspace, 7"
+        "$mod SHIFT, 8, hy3:movetoworkspace, 8"
+        "$mod SHIFT, 9, hy3:movetoworkspace, 9"
+        "$mod SHIFT, 0, hy3:movetoworkspace, 10"
         # Toggle floating status of focused window
         "$mod SHIFT, SPACE, togglefloating"
         # Toggle focus between floating and tiled windows
@@ -529,13 +559,16 @@
         hide_on_key_press = true;
         no_warps = true;
       };
+      general = {
+        gaps_out = 5;
+      };
       misc = {
         force_default_wallpaper = 0; # No more anime
         disable_hyprland_logo = 1;
       };
       plugin = {
         hy3 = {
-          no_gaps_when_only = 1;
+          no_gaps_when_only = 0;
           autotile.enable = 1;
         };
       };

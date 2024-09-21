@@ -30,12 +30,12 @@ g.mapleader = " "
 g.maplocalleader = " "
 
 opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldlevel = 20
-function _G.BetterFoldText()
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+function BetterFoldText()
 	return vim.fn.getline(vim.v.foldstart) .. "..." .. vim.fn.getline(vim.v.foldend):gsub("%s+", "")
 end
 opt.foldtext = "v:lua.BetterFoldText()"
-vim.opt.fillchars:append({ fold = " " })
+opt.fillchars:append({ fold = " " })
 
 opt.undofile = true
