@@ -190,8 +190,12 @@
 
   services.gvfs.enable = true;
 
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    libvirtd.enable = true;
+    virtualbox.host.enable = true;
+  };
   programs.virt-manager.enable = true;
+  users.extraGroups.vboxusers.members = ["user-with-access-to-virtualbox"];
 
   # OpenRGB
   services.udev = {
