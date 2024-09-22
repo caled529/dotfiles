@@ -256,6 +256,7 @@
       bind k select-pane -U
       bind l select-pane -R
       bind s choose-tree -sZ -O name
+      new-session -c ~
     '';
     keyMode = "vi";
     mouse = true;
