@@ -255,6 +255,7 @@
       bind j select-pane -D
       bind k select-pane -U
       bind l select-pane -R
+      bind s choose-tree -sZ -O name
     '';
     keyMode = "vi";
     mouse = true;
