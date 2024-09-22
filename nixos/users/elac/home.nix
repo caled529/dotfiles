@@ -109,10 +109,6 @@
       source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/waybar";
       target = ".config/waybar";
     };
-    wezterm = {
-      source = config.lib.file.mkOutOfStoreSymlink "/home/elac/dotfiles/wezterm.lua";
-      target = ".wezterm.lua";
-    };
   };
 
   # Gnome theming stuff
@@ -180,7 +176,6 @@
     };
   };
 
-  # Better cat
   programs.bat.enable = true;
 
   programs.direnv = {
@@ -189,7 +184,6 @@
     nix-direnv.enable = true;
   };
 
-  # Better ls
   programs.eza = {
     enable = true;
     git = true;
@@ -201,7 +195,6 @@
     enableZshIntegration = true;
   };
 
-  # GitHub CLI for authentication
   programs.gh.enable = true;
 
   programs.git = {
@@ -216,68 +209,6 @@
   programs.home-manager.enable = true;
 
   programs.hyprcursor-phinger.enable = true;
-
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "FiraCodeNerdFont";
-      package = pkgs.nerdfonts.override {fonts = ["FiraCode"];};
-      size = 12;
-    };
-    keybindings = rec {
-      mod = "super";
-      # Tabs
-      "${mod}+t" = "new_tab_with_cwd";
-      "${mod}+shift+t" = "new_tab";
-      "${mod}+shift+x" = "close_tab";
-      "${mod}+," = "previous_tab";
-      "${mod}+." = "next_tab";
-      "${mod}+shift+," = "move_tab_backward";
-      "${mod}+shift+." = "move_tab_forward";
-      "${mod}+1" = "goto_tab 1";
-      "${mod}+2" = "goto_tab 2";
-      "${mod}+3" = "goto_tab 3";
-      "${mod}+4" = "goto_tab 4";
-      "${mod}+5" = "goto_tab 5";
-      "${mod}+6" = "goto_tab 6";
-      "${mod}+7" = "goto_tab 7";
-      "${mod}+8" = "goto_tab 8";
-      "${mod}+9" = "goto_tab 9";
-      "${mod}+0" = "goto_tab 10";
-      # Windows (splits)
-      "${mod}+s" = "launch --location=hsplit --cwd=current";
-      "${mod}+v" = "launch --location=vsplit --cwd=current";
-      "${mod}+r" = "layout_action rotate";
-      "${mod}+x" = "close_window_with_confirmation ignore-shell";
-      "${mod}+d" = "detach_window";
-      "${mod}+h" = "neighboring_window left";
-      "${mod}+j" = "neighboring_window down";
-      "${mod}+k" = "neighboring_window up";
-      "${mod}+l" = "neighboring_window right";
-      "${mod}+shift+h" = "move_window left";
-      "${mod}+shift+j" = "move_window down";
-      "${mod}+shift+k" = "move_window up";
-      "${mod}+shift+l" = "move_window right";
-      "${mod}+shift+r" = "start_resizing_window";
-      "${mod}+=" = "reset_window_sizes";
-      "${mod}+f" = "toggle_fullscreen";
-    };
-    settings = {
-      disable_ligatures = "never";
-      copy_on_select = "yes";
-      tab_bar_edge = "top";
-      tab_bar_style = "powerline";
-      tab_powerline_style = "slanted";
-      active_tab_background = "#bbb";
-      inactive_tab_foreground = "#222";
-      inactive_tab_background = "#777";
-      background_opacity = "0.8";
-      text_fg_override_threshold = 2;
-      enabled_layouts = "splits";
-    };
-    shellIntegration.enableZshIntegration = true;
-    theme = "Catppuccin-Mocha";
-  };
 
   programs.swaylock = {
     enable = true;
@@ -303,6 +234,14 @@
       text-clear-color = "fae6fa";
       text-ver-color = "fae6fa";
       text-wrong-color = "fae6fa";
+    };
+  };
+
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      add_newline = false;
     };
   };
 
@@ -359,19 +298,7 @@
     autosuggestion.enable = true;
     history.ignoreAllDups = true;
     initExtra = ''
-      setopt prompt_subst
-      autoload -U colors && colors
-      parse_git_branch() {
-          branch=$(git symbolic-ref --short HEAD 2> /dev/null)
-          if [ ''${#branch} -gt 0 ]
-          then
-              echo " $branch "
-          fi
-      }
-      PROMPT=' %{%F{013}%}%~ %{%F{011}%}$(parse_git_branch)%{%F{007}%}$ %{%F{}%}'
-
       bindkey '^[[Z' autosuggest-accept
-
       autoload -Uz compinit && compinit
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
     '';
