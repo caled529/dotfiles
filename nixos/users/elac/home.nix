@@ -166,7 +166,7 @@
     settings = {
       font = {
         normal = {
-          family = "FiraCode Nerd Font Mono";
+          family = "FiraCode Nerd Font";
           style = "Regular";
         };
         size = 12;
@@ -180,6 +180,9 @@
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
+    config = {
+      global.hide_env_diff = true;
+    };
     nix-direnv.enable = true;
   };
 
@@ -241,6 +244,10 @@
     enableZshIntegration = true;
     settings = {
       add_newline = false;
+      nix_shell = {
+        format = "via [$symbol$name]($style) ";
+        symbol = " ";
+      };
     };
   };
 
