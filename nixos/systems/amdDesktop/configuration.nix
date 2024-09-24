@@ -6,13 +6,11 @@
   config,
   pkgs,
   pkgs-stable,
-  hyprExtra,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    inputs.home-manager.nixosModules.home-manager
     # Driver patch for this computer's motherboard - currently no flake support for this patch
     "${builtins.fetchGit {
       url = "https://github.com/NixOS/nixos-hardware.git";
@@ -85,14 +83,6 @@
     shell = pkgs.zsh;
   };
 
-  # Home-manager setup
-  home-manager = {
-    extraSpecialArgs = {inherit inputs hyprExtra;};
-    users = {
-      elac = import ../../users/elac/home.nix;
-    };
-  };
-
   # Allow proprietary packages
   nixpkgs.config.allowUnfree = true;
 
@@ -100,7 +90,6 @@
   environment.systemPackages = with pkgs-stable; [
     curl
     git
-    pkgs.home-manager
     keyd
     vim
     wget

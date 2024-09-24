@@ -2,7 +2,7 @@
   inputs,
   config,
   pkgs,
-  hyprExtra,
+  hyprExtra ? "",
   ...
 }: {
   imports = [

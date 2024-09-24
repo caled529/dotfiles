@@ -6,7 +6,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     aagl = {
       url = "github:ezKEa/aagl-gtk-on-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,11 +33,11 @@
       };
     };
   in {
-    nixosConfigurations = {
+    nixosConfigurations = with nixpkgs.lib; {
       # Home Desktop
-      nixebeest = nixpkgs.lib.nixosSystem {
+      nixebeest = nixosSystem {
         specialArgs = {
-          inherit inputs system pkgs-stable;
+          inherit inputs pkgs-stable;
           hyprExtra = ''
             monitor = DP-1, 2560x1440@180Hz, 0x0, 1
             monitor = DP-2, 1920x1080@144Hz, 2560x0, 1, transform, 3
@@ -62,13 +61,14 @@
           ./gaming/retroarch.nix
           ./gaming/steam.nix
           ./hardware-changes/v4l2.nix
+          ./users/elac
         ];
       };
 
       # Nitro5
-      hypr = nixpkgs.lib.nixosSystem {
+      hypr = nixosSystem {
         specialArgs = {
-          inherit inputs system pkgs-stable;
+          inherit inputs pkgs-stable;
           intelBusId = "PCI:0:2:0";
           nvidiaBusId = "PCI:1:0:0";
           hyprExtra = ''
@@ -80,31 +80,23 @@
         };
         modules = [
           ./systems/nitro5/configuration.nix
-          ./hardware-changes/nvidia-proprietary-drivers.nix
-          ./hardware-changes/v4l2.nix
           ./desktops/hyprland.nix
           ./gaming/steam.nix
           ./gaming/mihoyo.nix
+          ./hardware-changes/nvidia-proprietary-drivers.nix
+          ./hardware-changes/v4l2.nix
+          ./users/elac
         ];
       };
-      minimal = nixpkgs.lib.nixosSystem {
+      sway = nixosSystem {
         specialArgs = {
           inherit inputs system pkgs-stable;
-        };
-        modules = [
-          ./systems/minimal/configuration.nix
-          ./systems/nitro5/hardware-configuration.nix
-        ];
-      };
-      sway = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs system pkgs-stable;
-          hyprMonitors = [];
         };
         modules = [
           ./systems/nitro5/configuration.nix
-          ./hardware-changes/v4l2.nix
           ./desktops/swayfx.nix
+          ./hardware-changes/v4l2.nix
+          ./users/elac
         ];
       };
     };

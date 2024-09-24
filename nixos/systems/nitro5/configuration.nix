@@ -4,11 +4,8 @@
   pkgs,
   pkgs-stable,
   ...
-} @ args: {
-  imports = [
-    ./hardware-configuration.nix
-    inputs.home-manager.nixosModules.home-manager
-  ];
+}: {
+  imports = [./hardware-configuration.nix];
 
   boot.loader = {
     efi = {
@@ -74,17 +71,6 @@
     shell = pkgs.zsh;
   };
 
-  # Home-manager setup
-  home-manager = {
-    extraSpecialArgs = {
-      inherit inputs;
-      hyprExtra = args.hyprExtra;
-    };
-    users = {
-      elac = import ../../users/elac/home.nix;
-    };
-  };
-
   security.wrappers = {
     dlv = {
       owner = "root";
@@ -107,7 +93,6 @@
   environment.systemPackages = with pkgs-stable; [
     curl
     git
-    pkgs.home-manager
     keyd
     vim
     wget
