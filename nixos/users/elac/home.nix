@@ -41,6 +41,7 @@
     go
     grim
     jdk21
+    jetbrains.idea-ultimate
     jq
     keepassxc
     kitty
